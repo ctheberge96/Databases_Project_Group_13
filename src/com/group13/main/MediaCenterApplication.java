@@ -6,6 +6,7 @@ import com.group13.scenes.CreatorScene;
 import com.group13.scenes.ImageScene;
 import com.group13.scenes.LoginScene;
 import com.group13.scenes.MusicScene;
+import com.group13.scenes.UserScene;
 import com.group13.scenes.VideoScene;
 
 import javafx.application.Application;
@@ -26,6 +27,7 @@ public class MediaCenterApplication extends Application {
 	public static AdminScene _adminScene;
 	public static CreatorScene _creatorScene;
 	public static LoginScene _loginScene;
+	public static UserScene _userScene;
 	
 	private static Stage _stage;
 	
@@ -51,7 +53,8 @@ public class MediaCenterApplication extends Application {
 		_adminScene = new AdminScene(stage,new Pane());
 		_creatorScene = new CreatorScene(stage,new Pane());
 		_loginScene = new LoginScene(stage,new Pane());
-	
+		_userScene = new UserScene(stage, new Pane());
+		
 		stage.setScene(_loginScene); //Replace with respective scene for testing
 		
 		stage.setResizable(false);
