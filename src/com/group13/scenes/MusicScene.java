@@ -3,6 +3,7 @@ import java.io.File;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -20,7 +21,7 @@ public class MusicScene extends Scene {
 	 * 
 	 * @param parentPane The parent for this Scene
 	 */
-	public MusicScene(Stage stage, Parent parent) {
+	public MusicScene(Stage stage, Pane parent) {
 		super(parent);
 	}
 	

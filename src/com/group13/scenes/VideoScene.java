@@ -3,6 +3,7 @@ import java.io.File;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -24,8 +25,11 @@ public class VideoScene extends Scene {
 	 * 
 	 * @param parentPane The parent for this Scene
 	 */
-	public VideoScene(Stage stage, Parent parent) {
+	public VideoScene(Stage stage, Pane parent) {
 		super(parent);
+		
+		parent
+		
 	}
 	
 	private MediaView _videoView;
