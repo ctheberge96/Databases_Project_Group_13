@@ -8,6 +8,7 @@ import com.group13.scenes.VideoScene;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MediaCenterApplication extends Application {
@@ -27,6 +28,18 @@ public class MediaCenterApplication extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		//call scene constructors, giving each constructor a pane
+		_videoScene = new VideoScene(stage,new Pane());
+		_imageScene = new ImageScene(stage,new Pane());
+		_musicScene = new MusicScene(stage,new Pane());
+		_adminScene = new AdminScene(stage,new Pane());
+		_creatorScene = new CreatorScene(stage,new Pane());
+		_loginScene = new LoginScene(stage,new Pane());
+		
+		stage.setScene(_loginScene); //Replace with respective scene for testing
+		
+		stage.setResizable(false);
+		stage.setTitle("Media Center");
+		stage.show();
 		
 	}
 	
