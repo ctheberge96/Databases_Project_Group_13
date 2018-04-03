@@ -1,9 +1,15 @@
 package com.group13.scenes;
 import java.io.File;
 
+import com.group13.main.MediaCenterApplication;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -28,7 +34,44 @@ public class VideoScene extends Scene {
 	public VideoScene(Stage stage, Pane parent) {
 		super(parent);
 		
-		parent
+		parent.setPrefSize(645, 460);
+		
+		VBox container = new VBox();
+		container.setAlignment(Pos.CENTER);
+		container.setPadding(new Insets(8));
+		container.setSpacing(16);
+		
+		Button btnPlayPause = new Button("Play");
+		btnPlayPause.setOnAction(event -> {
+			
+			if (_videoView.getMediaPlayer().getStatus() == MediaPlayer.Status.PLAYING) {
+				
+				btnPlayPause.setText("Play"); //From playing to stopped
+				_videoView.getMediaPlayer().pause();
+				
+			} else {
+				
+				btnPlayPause.setText("Pause");
+				_videoView.getMediaPlayer().play();
+				
+			}
+		
+		});
+		
+		Button back = new Button("Back To Media Center");
+		back.setOnAction(event -> {
+			
+			//TODO temporary until main scene!!!!
+			MediaCenterApplication.changeScene(MediaCenterApplication._loginScene);
+			
+		});
+		
+		_videoView = new MediaView();
+		_videoView.setFitWidth(640);
+		_videoView.setFitHeight(480);
+		container.getChildren().addAll(back, _videoView, btnPlayPause);
+		
+		parent.getChildren().add(container);
 		
 	}
 	
@@ -61,13 +104,37 @@ public class VideoScene extends Scene {
 	public void loadVideo(File videoFile, Duration seekTime) {
 		
 		MediaPlayer videoPlayer = new MediaPlayer(new Media(videoFile.toURI().toString()));
-		videoPlayer.setVolume(0);
-		videoPlayer.play();
-		videoPlayer.seek(seekTime);
-		videoPlayer.stop();
-		videoPlayer.setVolume(1);
-		
 		_videoView.setMediaPlayer(videoPlayer);
+		
+		int initialCount = videoPlayer.getCycleCount();
+
+		videoPlayer.setOnReady(() -> {
+			
+			if (videoPlayer.getCycleCount() == initialCount) {
+			
+				videoPlayer.setVolume(0);
+				videoPlayer.play();
+				videoPlayer.seek(seekTime);
+				
+				videoPlayer.setCycleCount(initialCount + 1);
+			
+			}
+						
+		});
+		
+		videoPlayer.cycleCountProperty().addListener(observer -> {
+			
+			if (videoPlayer.getCycleDuration().toSeconds() >= seekTime.toSeconds()) {
+				
+				videoPlayer.pause();
+				
+			} else {
+				
+				videoPlayer.setCycleCount(videoPlayer.getCycleCount() + 1);
+				
+			}
+			
+		});
 		
 	}
 	
