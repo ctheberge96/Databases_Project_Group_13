@@ -1,7 +1,7 @@
 package com.group13.main;
-import java.io.File;
 
 import com.group13.scenes.AdminScene;
+import com.group13.scenes.AppScene;
 import com.group13.scenes.CreatorScene;
 import com.group13.scenes.ImageScene;
 import com.group13.scenes.LoginScene;
@@ -9,57 +9,29 @@ import com.group13.scenes.MusicScene;
 import com.group13.scenes.UserScene;
 import com.group13.scenes.VideoScene;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-public class MediaCenterApplication extends Application {
+public class MediaCenterApplication {
 
 	public static void main(String[] args) {
-		MediaCenterApplication.launch(args);
+		
+		changeScene(LOGINSCENE);
+		
 	}
 	
-	public static VideoScene _videoScene;
-	public static ImageScene _imageScene;
-	public static MusicScene _musicScene;
-	public static AdminScene _adminScene;
-	public static CreatorScene _creatorScene;
-	public static LoginScene _loginScene;
-	public static UserScene _userScene;
-	
-	private static Stage _stage;
+	public static final VideoScene VIDEOSCENE = new VideoScene();
+	public static final ImageScene IMAGESCENE = new ImageScene();
+	public static final MusicScene MUSICSCENE = new MusicScene();
+	public static final AdminScene ADMINSCENE = new AdminScene();
+	public static final CreatorScene CREATORSCENE = new CreatorScene();
+	public static final LoginScene LOGINSCENE = new LoginScene();
+	public static final UserScene USERSCENE = new UserScene();
 	
 	/**
 	 * Sets the current scene to the given one and displays it.
 	 */
-	public static void changeScene(Scene scene) {
+	public static void changeScene(AppScene scene) {
 		
-		_stage.setScene(scene);
-		_stage.show();
-		
-	}
-	
-	@Override
-	public void start(Stage stage) throws Exception {
-		
-		_stage = stage;
-		
-		//call scene constructors, giving each constructor a pane
-		_videoScene = new VideoScene(stage,new Pane());
-		_imageScene = new ImageScene(stage,new Pane());
-		_musicScene = new MusicScene(stage,new Pane());
-		_adminScene = new AdminScene(stage,new Pane());
-		_creatorScene = new CreatorScene(stage,new Pane());
-		_loginScene = new LoginScene(stage,new Pane());
-		_userScene = new UserScene(stage, new Pane());
-		
-		stage.setScene(_loginScene); //Replace with respective scene for testing
-		
-		stage.setResizable(false);
-		stage.setTitle("Media Center");
-		stage.show();
+		System.out.println(); //Put some distance between the last scene and this one
+		scene.onStart();
 		
 	}
 	

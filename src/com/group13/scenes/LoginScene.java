@@ -1,19 +1,15 @@
 package com.group13.scenes;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-public class LoginScene extends Scene {
+public class LoginScene extends AppScene {
 
-	public LoginScene(Stage stage, Pane parent) {
-		super(parent);
+	public LoginScene() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	private boolean _validateLogin(String username, String password) {
-		//TODO stub
-		return false;
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

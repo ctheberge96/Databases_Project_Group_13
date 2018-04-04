@@ -1,10 +1,4 @@
 package com.group13.scenes;
-import java.io.File;
-
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 /**
  * This scene is for an image.
@@ -13,22 +7,16 @@ import javafx.stage.Stage;
  * 
  * @author Conner Theberge
  */
-public class ImageScene extends Scene {
+public class ImageScene extends AppScene {
 	
-	public ImageScene(Stage stage, Pane parent) {
-		super(parent);
+	public ImageScene() {
+		// TODO Auto-generated method stub
 	}
-	
-	/**
-	 * Loads an image from the given file into the
-	 * image viewing nodes in this Scene.
-	 * <br>Should be called directly before changing scene.
-	 * <br>This might throw Exceptions if the file does not exist.
-	 * 
-	 * @param imageFile The file containing the image.
-	 */
-	public void loadImage(File videoFile) {
-		//TODO stub
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

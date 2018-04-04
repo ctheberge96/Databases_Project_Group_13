@@ -1,14 +1,14 @@
 package com.group13.scenes;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-public class AdminScene extends Scene {
+public class AdminScene extends AppScene {
 	
-	public AdminScene(Stage stage, Pane parent) {
-		super(parent);
+	public AdminScene() {
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
 	}
 
 }
