@@ -15,4 +15,6 @@ public abstract class AppScene {
 	 */
 	public abstract void onStart();
 	
+	public abstract void onExit();
+	
 }

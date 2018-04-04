@@ -1,5 +1,6 @@
 package com.group13.util;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Scanner;
 public class Menu {
 
 	private ArrayList<String> options;
+	private HashMap<String, Runnable> actionMap;
 	private String title;
 	
 	/**
@@ -27,12 +29,10 @@ public class Menu {
 	 * @param title The title of this menu
 	 * @param options All options for the user to choose from
 	 */
-	public Menu(String title, String...options) {
+	public Menu(String title) {
 		
 		this.options = new ArrayList<String>();
-		for (String option : options) {
-			addOption(option);
-		}
+		actionMap = new HashMap<>();
 		
 		this.title = title;
 		
@@ -41,9 +41,10 @@ public class Menu {
 	/**
 	 * Adds an option to this menu.
 	 */
-	public void addOption(String option) {
+	public void addOption(String option, Runnable action) {
 		
 		options.add(option);
+		actionMap.put(option, action);
 		
 	}
 	
@@ -53,6 +54,7 @@ public class Menu {
 	public void removeOption(String option) {
 		
 		options.remove(option);
+		actionMap.remove(option);
 		
 	}
 	
@@ -62,6 +64,7 @@ public class Menu {
 	public void clearOptions() {
 		
 		options.clear();
+		actionMap.clear();
 		
 	}
 	
@@ -81,20 +84,11 @@ public class Menu {
 		
 	}
 	
-	/**
-	 * Gets the input from the user.
-	 * <br>Will continue to accept input until valid input
-	 * has been recieved.
-	 * <br>Returns null if there are no available options
-	 * 
-	 * @param scanner The scanner to use for user input
-	 * @return The selected option's title
-	 */
-	public String getInput(Scanner scanner) {
+	public void getInput(Scanner scanner) {
 		
 		if (options.isEmpty()) {
 			
-			return null;
+			return;
 			
 		}
 		
@@ -106,7 +100,9 @@ public class Menu {
 			
 				int optionNum = Integer.parseInt(scanner.nextLine());
 				
-				return options.get(optionNum - 1);
+				actionMap.get(options.get(optionNum - 1)).run();
+				
+				return;
 				
 			} catch(Exception e) {
 				

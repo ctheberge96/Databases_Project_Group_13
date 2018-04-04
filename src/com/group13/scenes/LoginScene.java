@@ -11,5 +11,11 @@ public class LoginScene extends AppScene {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void onExit() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

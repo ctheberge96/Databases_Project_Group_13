@@ -14,4 +14,10 @@ public class CreatorScene extends AppScene {
 		
 	}
 
+	@Override
+	public void onExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

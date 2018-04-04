@@ -19,4 +19,10 @@ public class ImageScene extends AppScene {
 		
 	}
 
+	@Override
+	public void onExit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

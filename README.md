@@ -6,4 +6,4 @@ Admin Page & Login - Tyler
 
 Image & Music - Jason
 
-Creator & Video - Conner
+Creator & Video & User - Conner
