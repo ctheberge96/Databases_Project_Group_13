@@ -1,7 +1,10 @@
 package com.group13.main;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
-
+import com.group13.queries.Query;
+import com.group13.queries.UserQuery;
 import com.group13.scenes.AdminScene;
 import com.group13.scenes.AppScene;
 import com.group13.scenes.CreatorScene;
@@ -16,6 +19,10 @@ public class MediaCenterApplication {
 	private static AppScene currentScene;
 	
 	public static void main(String[] args) {
+		
+		UserQuery.registerUser("myUsername", "myPassword");
+		int ID = UserQuery.checkLogin("myUsername", "myPassword");
+		UserQuery.deleteUser(ID);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread()
 	    {

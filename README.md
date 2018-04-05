@@ -7,3 +7,11 @@ Admin Page & Login - Tyler
 Image & Music - Jason
 
 Creator & Video & User - Conner
+
+AdminQuery - 
+
+CreatorQuery -
+
+MediaQuery -
+
+UserQuery -
