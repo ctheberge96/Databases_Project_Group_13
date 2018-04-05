@@ -20,10 +20,6 @@ public class MediaCenterApplication {
 	
 	public static void main(String[] args) {
 		
-		UserQuery.registerUser("myUsername", "myPassword");
-		int ID = UserQuery.checkLogin("myUsername", "myPassword");
-		UserQuery.deleteUser(ID);
-		
 		Runtime.getRuntime().addShutdownHook(new Thread()
 	    {
 	      public void run()
