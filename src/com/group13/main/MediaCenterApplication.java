@@ -13,6 +13,9 @@ public class MediaCenterApplication {
 
 	private static AppScene currentScene;
 	
+	public enum Rank { USER, CREATOR, ADMIN }
+	public static Rank USER_RANK;
+	
 	public static void main(String[] args) {
 		
 		//Something that runs when the program is shutdown

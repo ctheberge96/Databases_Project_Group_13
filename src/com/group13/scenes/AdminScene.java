@@ -8,6 +8,13 @@ package com.group13.scenes;
  */
 public class AdminScene extends AppScene {
 	
+	/*
+	 * Edit All Media
+	 * Edit Tags
+	 * View Creators
+	 * View Finances
+	 */
+	
 	public AdminScene() {
 		// TODO Auto-generated constructor stub
 	}

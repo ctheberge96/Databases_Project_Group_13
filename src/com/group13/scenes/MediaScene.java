@@ -13,6 +13,17 @@ import java.io.File;
  */
 public class MediaScene extends AppScene {
 	
+	/*
+	 * Display media information, then
+	 * have menu where they either select open media, or select "go back"
+	 * 
+	 * Information to display:
+	 * Title
+	 * Type (Image, Video, Music)
+	 * Date Created
+	 * Views
+	 */
+	
 	public MediaScene() {
 		
 	}

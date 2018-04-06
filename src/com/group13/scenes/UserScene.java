@@ -5,6 +5,17 @@ import com.group13.util.Menu;
 
 public class UserScene extends AppScene {
 
+	/* Search Media By Tag
+	 * Search Media By Name
+	 * View All Media
+	 * Follow Tag
+	 * View Favorites
+	 * Request Upgrade
+	 * 
+	 * (Add a menu that contains all media, and if they select a media,
+	 * load that media up in the MediaScene)
+	 */
+	
 	private Menu mainMenu = new Menu("Media Center");
 	
 	private Menu accountMenu = new Menu("Account Settings");
