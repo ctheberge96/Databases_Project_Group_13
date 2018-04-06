@@ -1,5 +1,8 @@
 package com.group13.scenes;
 
+import java.awt.Desktop;
+import java.io.File;
+
 /**
  * This scene is for any playable media.
  * <br>This scene has the ability to load media before it is shown.
@@ -11,12 +14,13 @@ package com.group13.scenes;
 public class MediaScene extends AppScene {
 	
 	public MediaScene() {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
+		
+		
 		
 	}
 

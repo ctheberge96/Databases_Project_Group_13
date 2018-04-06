@@ -1,14 +1,7 @@
 package com.group13.main;
 
-import java.io.File;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
-import com.group13.queries.MediaQuery;
-import com.group13.queries.MediaQuery.MediaType;
-import com.group13.queries.Query;
-import com.group13.queries.UserQuery;
 import com.group13.scenes.AdminScene;
 import com.group13.scenes.AppScene;
 import com.group13.scenes.CreatorScene;
@@ -22,8 +15,7 @@ public class MediaCenterApplication {
 	
 	public static void main(String[] args) {
 		
-		//MediaQuery.addMedia("The most successful pirate of all time", MediaType.VIDEO, new File("The most successful pirate of all time.mp4"), 1);
-		
+		//Something that runs when the program is shutdown
 		Runtime.getRuntime().addShutdownHook(new Thread()
 	    {
 	      public void run()
@@ -32,10 +24,12 @@ public class MediaCenterApplication {
 	      }
 	    });
 		
+		//Changes the scene to the initial scene
 		changeScene(USER_SCENE);
 		
 	}
 	
+	//All scenes which can be switched to
 	public static final MediaScene MEDIA_SCENE = new MediaScene();
 	public static final AdminScene ADMIN_SCENE = new AdminScene();
 	public static final CreatorScene CREATOR_SCENE = new CreatorScene();

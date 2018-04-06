@@ -4,14 +4,6 @@ Scenes:
 
 Admin Page & Login - Tyler
 
-Image & Music - Jason
+Creator & Media - Jason
 
-Creator & Video & User - Conner
-
-AdminQuery - 
-
-CreatorQuery -
-
-MediaQuery -
-
-UserQuery -
+Query Stuff - Conner
