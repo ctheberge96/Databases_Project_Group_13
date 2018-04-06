@@ -93,6 +93,9 @@ public class UserScene extends AppScene {
 			
 		});
 		
+		//load media
+		MediaCenterApplication.changeScene(MediaCenterApplication.MEDIA_SCENE);
+		
 	}
 	
 	private boolean loop = true;

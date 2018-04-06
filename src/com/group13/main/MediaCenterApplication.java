@@ -1,7 +1,9 @@
 package com.group13.main;
 
+import java.io.File;
 import java.util.Scanner;
 
+import com.group13.queries.CreatorQuery;
 import com.group13.scenes.AdminScene;
 import com.group13.scenes.AppScene;
 import com.group13.scenes.CreatorScene;

@@ -24,6 +24,13 @@ public class MediaScene extends AppScene {
 	 * Views
 	 */
 	
+	private int mediaID;
+	public void loadMedia(int mediaID) {
+		
+		this.mediaID = mediaID;
+		
+	}
+	
 	public MediaScene() {
 		
 	}
@@ -31,13 +38,16 @@ public class MediaScene extends AppScene {
 	@Override
 	public void onStart() {
 		
-		
+		//print out all the information
+		//start a menu asking to open, or go back
 		
 	}
 
 	@Override
 	public void onExit() {
 		// TODO Auto-generated method stub
+		
+		
 		
 	}
 
