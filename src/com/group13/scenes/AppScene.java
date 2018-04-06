@@ -15,6 +15,9 @@ public abstract class AppScene {
 	 */
 	public abstract void onStart();
 	
+	/**
+	 * Called when this scene is left to go to a different scene
+	 */
 	public abstract void onExit();
 	
 }

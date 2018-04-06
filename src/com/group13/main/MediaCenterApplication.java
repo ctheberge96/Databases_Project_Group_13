@@ -1,24 +1,28 @@
 package com.group13.main;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import com.group13.queries.MediaQuery;
+import com.group13.queries.MediaQuery.MediaType;
 import com.group13.queries.Query;
 import com.group13.queries.UserQuery;
 import com.group13.scenes.AdminScene;
 import com.group13.scenes.AppScene;
 import com.group13.scenes.CreatorScene;
-import com.group13.scenes.ImageScene;
 import com.group13.scenes.LoginScene;
-import com.group13.scenes.MusicScene;
+import com.group13.scenes.MediaScene;
 import com.group13.scenes.UserScene;
-import com.group13.scenes.VideoScene;
 
 public class MediaCenterApplication {
 
 	private static AppScene currentScene;
 	
 	public static void main(String[] args) {
+		
+		//MediaQuery.addMedia("The most successful pirate of all time", MediaType.VIDEO, new File("The most successful pirate of all time.mp4"), 1);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread()
 	    {
@@ -28,17 +32,15 @@ public class MediaCenterApplication {
 	      }
 	    });
 		
-		changeScene(USERSCENE);
+		changeScene(USER_SCENE);
 		
 	}
 	
-	public static final VideoScene VIDEOSCENE = new VideoScene();
-	public static final ImageScene IMAGESCENE = new ImageScene();
-	public static final MusicScene MUSICSCENE = new MusicScene();
-	public static final AdminScene ADMINSCENE = new AdminScene();
-	public static final CreatorScene CREATORSCENE = new CreatorScene();
-	public static final LoginScene LOGINSCENE = new LoginScene();
-	public static final UserScene USERSCENE = new UserScene();
+	public static final MediaScene MEDIA_SCENE = new MediaScene();
+	public static final AdminScene ADMIN_SCENE = new AdminScene();
+	public static final CreatorScene CREATOR_SCENE = new CreatorScene();
+	public static final LoginScene LOGIN_SCENE = new LoginScene();
+	public static final UserScene USER_SCENE = new UserScene();
 	public static final Scanner INPUT_SCANNER = new Scanner(System.in);
 	
 	/**

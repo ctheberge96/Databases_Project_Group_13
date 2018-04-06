@@ -6,17 +6,68 @@ import java.util.LinkedList;
 
 public class UserQuery {
 
-	public LinkedList<Integer> getFavoritedMedia(int userId) {
-		//TODO stub
+	/**
+	 * Gets all media favorited by the given user
+	 * 
+	 * @param userId The ID associated with the user
+	 * @return A list of IDs associated with Media that was favorited with the user
+	 */
+	public static LinkedList<Integer> getFavoritedMedia(int userId) {
+		
+		ResultSet set = Query.executeSelect("SELECT FK_MediaID FROM FavoritedMedia WHERE FK_UserID = " + userId);
+		
+		int count = 1;
+		
+		try {
+		
+			while(set.next()) {
+				
+				System.out.println(set.getInt(count));
+				count++;
+				
+			}
+		
+		} catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
 		return null;
+		
 	}
 	
-	public void favoriteMedia(int userId, int mediaID) {
-		//TODO stub
+	/**
+	 * Favorites certain media for a certain user
+	 * 
+	 * @param userID ID of the user
+	 * @param mediaID ID of the media to favorite
+	 * @return whether the favoriting was successful
+	 */
+	public static boolean favoriteMedia(int userID, int mediaID) {
+		
+		int result = Query.executeUpdate(String.format("INSERT INTO FavoritedMedia (FK_MediaID, FK_UserID)\r\n" + 
+													   "VALUES (%d, %d);",
+													   mediaID,userID));
+		
+		return result != 0;
+		
 	}
 	
-	public void unfavoriteMedia(int userId, int mediaID) {
-		//TODO stub
+	/**
+	 * Unfavorites certain media for a certain user
+	 * 
+	 * @param userID ID of the user
+	 * @param mediaID ID of the media to unfavorite
+	 * @return whether the unfavoriting was successful
+	 */
+	public static boolean unfavoriteMedia(int userID, int mediaID) {
+		
+		int result = Query.executeUpdate(String.format("DELETE FROM FavoritedMedia WHERE FK_MediaID = %d AND FK_UserID = %d",
+										 mediaID,userID));
+		
+		return result != 0;
+		
 	}
 	
 	public LinkedList<String> getFollowedTags(int userId) {
@@ -29,7 +80,7 @@ public class UserQuery {
 	}
 	
 	public void unFollowTag(int userID, String tag) {
-		//TODO stub
+		
 	}
 
 	/**
@@ -66,7 +117,7 @@ public class UserQuery {
 														"VALUES (\"%s\", \"%s\");",
 														username, password));
 			
-			return (result == 0 ? false:true);
+			return result != 0;
 		
 		} else {
 			return false;
