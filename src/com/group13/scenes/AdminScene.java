@@ -1,8 +1,6 @@
 package com.group13.scenes;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
 
 import com.group13.main.MediaCenterApplication;
 import com.group13.queries.Media;
@@ -52,8 +50,7 @@ public class AdminScene extends AppScene {
 			String mediaTitle;
 			char mediaType;
 			String mediaPath;
-			int result;
-						
+
 			System.out.print("Enter a Media Title: ");
 			mediaTitle = MediaCenterApplication.INPUT_SCANNER.nextLine();
 			System.out.println();
@@ -90,7 +87,7 @@ public class AdminScene extends AppScene {
 			
 		});
 		
-		adminMenu.addOption("Change a User's account info", () -> {
+		adminMenu.addOption("View a User's account info", () -> {
 			/*
 			 * Asks what user -> lets say John Doe.
 			 * 

@@ -36,6 +36,7 @@ public class LoginScene extends AppScene {
 				
 				User user = new User(inputedUser, inputedPass);
 				if(user.isValid()) {
+					loginState = true;
 					MediaCenterApplication.currentUser = user; //accepts user as valid for moving on
 					if(Creator.isCreator(user)) {
 						MediaCenterApplication.changeScene(MediaCenterApplication.CREATOR_SCENE);
@@ -46,10 +47,6 @@ public class LoginScene extends AppScene {
 					else {
 						MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
 					}
-				
-				}
-				else {
-					User.deleteUser(user);
 				}
 			}
 		});
