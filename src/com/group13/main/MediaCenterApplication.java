@@ -19,10 +19,8 @@ public class MediaCenterApplication {
 	private static AppScene currentScene;
 
 	public static User currentUser;
-	
+	//
 	public static void main(String[] args) {
-		
-		System.out.println(Admin.ADMIN_USERNAME);
 		
 		User.registerNewUser(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
 		User admin = new User(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
