@@ -36,7 +36,7 @@ public class Media {
 	 * 
 	 * @return Whether the addition was successful
 	 */
-	public static int addMedia(int creatorID,
+	public static boolean addMedia(int creatorID,
 								   String mediaTitle,
 								   char type,
 								   File mediaFile)
@@ -63,35 +63,34 @@ public class Media {
 					
 				} catch (IOException e) {
 					
-					e.printStackTrace();
-					return -1;
+					return false;
 					
 				}
 			
 			} else {
 				
-				return -1;
+				return false;
 				
 			}
 			
 		} catch(Exception e) {
 			
-			return -1;
+			return false;
 			
 		}
 			
 		Calendar calendar = Calendar.getInstance();
 		
 		int result = Query.executeUpdate(Query.constructInsert("Media", "MediaTitle",
-																		mediaTitle,
+																		String.format("\"%s\"", mediaTitle),
 																		"MediaType",
-																		String.valueOf(type),
+																		String.format("\"%s\"", String.valueOf(type)),
 																		"MediaFileName",
-																		mediaFile.getName(),
+																		String.format("\"%s\"", mediaFile.getName()),
 																		"MediaLastOpened",
-																		new Date(calendar.getTimeInMillis()).toString(),
+																		String.format("\"%s\"", new Date(calendar.getTimeInMillis()).toString()),
 																		"MediaDateCreated",
-																		new Date(calendar.getTimeInMillis()).toString(),
+																		String.format("\"%s\"", new Date(calendar.getTimeInMillis()).toString()),
 																		"MediaCreatorID",
 																		Integer.toString(creatorID),
 																		"MediaViews",
@@ -99,18 +98,11 @@ public class Media {
 		
 		if (result != 0) {
 			
-			ResultSet set = Query.executeSelect(Query.constructQuery("MediaID", "Media", "MediaTitle = " + mediaTitle));
-			try {
-				set.next();
-				return set.getInt("MediaID");
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return -1;
-			}
+			return true;
 			
 		} else {
 			
-			return -1;
+			return false;
 			
 		}
 		
@@ -124,8 +116,8 @@ public class Media {
 	 */
 	public static boolean deleteMedia(Media media) {
 		
-		Query.executeUpdate(String.format("DELETE TaggedMedia WHERE FK_FT_MediaID = %d", media.id));
-		Query.executeUpdate(String.format("DELETE FavoritedMedia WHERE FK_FT_MediaID = %d", media.id));
+		Query.executeUpdate(String.format("DELETE FROM TaggedMedia WHERE FK_FT_MediaID = %d", media.id));
+		Query.executeUpdate(String.format("DELETE FROM FavoritedMedia WHERE FK_FT_MediaID = %d", media.id));
 		try ( Socket server = new Socket("localhost",1);
 				DataOutputStream toServer = new DataOutputStream(server.getOutputStream());
 				DataInputStream fromServer = new DataInputStream(server.getInputStream()); )

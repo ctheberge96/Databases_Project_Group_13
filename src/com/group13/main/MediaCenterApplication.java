@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.group13.queries.Admin;
 import com.group13.queries.Creator;
+import com.group13.queries.Media;
 import com.group13.queries.Query;
 import com.group13.queries.User;
 import com.group13.scenes.AdminScene;

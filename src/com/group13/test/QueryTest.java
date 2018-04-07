@@ -124,7 +124,7 @@ class QueryTest {
 		
 		Creator creator = new Creator(user);
 		
-		int id = Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
+		Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
 		
 		assertNotEquals(-1, id, "Media not created!");
 		
