@@ -65,7 +65,7 @@ public class LoginScene extends AppScene {
 				System.out.println();
 				System.out.print("Input a Password: ");
 				inputedPass = MediaCenterApplication.INPUT_SCANNER.nextLine();
-				System.out.println();
+				System.out.println("");
 			
 				User user = new User(inputedUser, inputedPass);
 				if(user.isValid()) {
