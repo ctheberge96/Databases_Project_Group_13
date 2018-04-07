@@ -3,7 +3,9 @@ package com.group13.scenes;
 import java.io.File;
 
 import com.group13.main.MediaCenterApplication;
+import com.group13.queries.Creator;
 import com.group13.queries.Media;
+import com.group13.queries.User;
 import com.group13.util.Menu;
 
 /*
@@ -25,25 +27,7 @@ public class AdminScene extends AppScene {
 		curMenu = menu;
 	}
 	
-	public AdminScene() {
-	
-		accountMenu.addOption("Change Username", () -> {
-			
-			//TAKE FROM USERSCENE
-			
-		});
-		
-		accountMenu.addOption("Change Password", () -> {
-					
-			//TAKE FROM USERSCENE	
-					
-		});
-	
-		accountMenu.addOption("Back", () -> {
-			
-			changeMenu(adminMenu);
-			
-		});
+	public AdminScene() {	
 	//Admin Menu
 		adminMenu.addOption("Add Media", () -> {
 			
@@ -66,11 +50,11 @@ public class AdminScene extends AppScene {
 		});
 		
 		adminMenu.addOption("Delete Media", () -> {
-			int mediaID;
+			String mediaTitle;
 			
-			System.out.print("Enter the ID of the Media you wish to delete: ");
-			mediaID = MediaCenterApplication.INPUT_SCANNER.nextInt();
-			Media media = new Media(mediaID);
+			System.out.print("Enter the title of the Media you wish to delete: ");
+			mediaTitle = MediaCenterApplication.INPUT_SCANNER.nextLine();
+			Media media = new Media(mediaTitle);
 			Media.deleteMedia(media);
 			
 		});
@@ -87,16 +71,76 @@ public class AdminScene extends AppScene {
 			
 		});
 		
-		adminMenu.addOption("View a User's account info", () -> {
-			/*
-			 * Asks what user -> lets say John Doe.
-			 * 
-			 * Returns John's account info, IF ARTIST -> financial information, statistics, account payable info.
-			 * 
-			 * Asks what admin wants to change (switch statement)
-			 */
-			System.out.println();
+		adminMenu.addOption("View a Creator's account info", () -> {
+			int lookUp;
+			System.out.print("Enter the ID of the User you wish to look up: ");
+			lookUp = MediaCenterApplication.INPUT_SCANNER.nextInt();
+			User user = new User(lookUp);
+			Creator creator = new Creator(user);
+			if(Creator.isCreator(user)) {
+				System.out.println("CREATOR FOUND:");
+				System.out.print("Creator username: ");
+				System.out.println(user.getUsername());
+				System.out.print("Creator password: ");
+				System.out.println(user.getPassword());
+				System.out.print("Creator total plays: ");
+				System.out.println(creator.getTotalPlays());
+				System.out.print("Creator Bank Acc #: ");
+				System.out.println(creator.getBankAccountNumber());
+				System.out.print("Creator Routing #: ");
+				System.out.println(creator.getBankRouting());
+				
+				char choice;
+				boolean sChoice = true;
+				while(sChoice) {
+					System.out.println("Would you like to change anything? [u]sername, [p]assword");
+					choice = MediaCenterApplication.INPUT_SCANNER.nextLine().charAt(0);
+					
+					switch (choice) {
+					case 'u':
+						String newUsername;
+						System.out.println("Changing Creator username");
+						System.out.print("Enter change: ");
+						newUsername = MediaCenterApplication.INPUT_SCANNER.nextLine();
+						user.changeUsername(newUsername);
+						sChoice = false;
+						break;
+					case 'p':
+						String newPassword;
+						System.out.println("Changing Creator password");
+						System.out.print("Enter change: ");
+						newPassword = MediaCenterApplication.INPUT_SCANNER.nextLine();
+						user.changePassword(newPassword);
+						sChoice = false;
+						break;
+					default:
+						System.out.println("Non-valid choice");
+					}
+				}
+			}
+			else {
+				System.out.println("That user is not a creator.");
+			}
 			
+			
+		});
+	
+	//Account Menu
+		accountMenu.addOption("Change Username", () -> {
+			
+			System.out.println("Not yet implemented");
+			
+		});
+		
+		accountMenu.addOption("Change Password", () -> {
+					
+			System.out.println("Not yet implemented");
+					
+		});
+	
+		accountMenu.addOption("Back", () -> {
+			
+			changeMenu(adminMenu);
 			
 		});
 		
