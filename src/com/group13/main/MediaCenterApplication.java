@@ -31,7 +31,7 @@ public class MediaCenterApplication {
 	    });
 		
 		//Changes the scene to the initial scene
-		changeScene(USER_SCENE);
+		changeScene(LOGIN_SCENE);
 		
 	}
 	
