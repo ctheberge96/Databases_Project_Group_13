@@ -5,8 +5,16 @@ import java.sql.SQLException;
 
 public class User {
 	
+	public static final char CREATOR_STATUS_NONE = 'n';
+	public static final char CREATOR_STATUS_WAITING = 'w';
+	public static final char CREATOR_STATUS_REJECTED = 'r';
+	public static final char CREATOR_STATUS_ACCEPTED = 'a';
+	
 	private String username, password;
 	private int id;
+	public int getID() {
+		return id;
+	}
 
 	/**
 	 * Registers a new User (Adds them to the database)
@@ -17,12 +25,18 @@ public class User {
 	 */
 	public static int registerNewUser(String username, String password) {
 		
-		try {
-			Query.executeUpdate(String.format("INSERT INTO User (UserName, UserPassword) VALUES (\"%s\", \"%s\")",username,password));
-			return Query.executeSelect(String.format("SELECT UserID WHERE UserName = \"%s\" AND UserPassword = \"%s\"", username, password)).getInt("UserID");
-		} catch (SQLException e) {
-			return -1;
+		if (username.equals(password)) {
+			
+			throw new IllegalArgumentException("Username and password cannot be equal!");
+			
 		}
+		
+		return Query.executeUpdate(Query.constructInsert("User", "UserName",
+																 String.format("\"%s\"", username),
+																 "UserPassword",
+																 String.format("\"%s\"", password),
+																 "UserCreatorStatus",
+																 String.format("\"%s\"", CREATOR_STATUS_NONE)));
 		
 	}
 	
@@ -33,9 +47,9 @@ public class User {
 		
 		if (user.isValid()) {
 	
-			Query.executeUpdate(String.format("DELETE FollowedTag WHERE FK_FM_UserID = %d", user.id));
-			Query.executeUpdate(String.format("DELETE FavoritedMedia WHERE FK_FT_UserID = %d", user.id));
-			Query.executeUpdate(String.format("DELETE User WHERE UserID = %d", user.id));
+			Query.executeUpdate(String.format("DELETE FROM FollowedTag WHERE FK_FM_UserID = %d", user.id));
+			Query.executeUpdate(String.format("DELETE FROM FavoritedMedia WHERE FK_FT_UserID = %d", user.id));
+			Query.executeUpdate(String.format("DELETE FROM User WHERE UserID = %d", user.id));
 		
 			return true;
 			
@@ -57,7 +71,9 @@ public class User {
 	public User(String username, String password) {
 		
 		try {
-			this.id = Query.executeSelect(String.format("SELECT UserID WHERE UserName = \"%s\" AND UserPassword = \"%s\"", username, password)).getInt("UserID");
+			ResultSet set = Query.executeSelect(String.format("SELECT UserID FROM User WHERE UserName = \"%s\" AND UserPassword = \"%s\"", username, password));
+			set.next();
+			this.id = set.getInt("UserID");
 			this.username = username;
 			this.password = password;
 		} catch (SQLException e) {
@@ -115,15 +131,24 @@ public class User {
 	/**
 	 * Changes this User's username
 	 */
-	public void changeUsername(String newUsername) {
+	public boolean changeUsername(String newUsername) {
 		
 		if (!isValid()) {
 			throw new IllegalStateException("User is not valid! (Doesn't exist!) Check for validity using isValid()!");
 		}
 		
-		Query.executeUpdate("UPDATE User SET UserName = \"" + newUsername + "\" WHERE UserID = " + this.id);
+		int result = Query.executeUpdate("UPDATE User SET UserName = \"" + newUsername + "\" WHERE UserID = " + this.id);
 		
-		this.username = newUsername;
+		if (result != 0) {
+		
+			this.username = newUsername;
+			return true;
+		
+		} else {
+			
+			return false;
+			
+		}
 		
 	}
 	
@@ -143,15 +168,60 @@ public class User {
 	/**
 	 * Changes this User's password
 	 */
-	public void changePassword(String newPassword) {
+	public boolean changePassword(String newPassword) {
 		
 		if (!isValid()) {
 			throw new IllegalStateException("User is not valid! (Doesn't exist!) Check for validity using isValid()!");
 		}
 		
-		Query.executeUpdate("UPDATE User SET UserPassword = \"" + newPassword + "\" WHERE UserID = " + this.id);
+		int result = Query.executeUpdate("UPDATE User SET UserPassword = \"" + newPassword + "\" WHERE UserID = " + this.id);
 		
-		this.password = newPassword;
+		if (result != 0) {
+			
+			this.password = newPassword;
+			return true;
+		
+		} else {
+			
+			return false;
+			
+		}
+		
+	}
+	
+	public boolean requestCreatorStatus() {
+		
+		if (!isValid()) {
+			throw new IllegalStateException("User is not valid! (Doesn't exist!) Check for validity using isValid()!");
+		}
+		
+		if (getCreatorStatus() != CREATOR_STATUS_ACCEPTED) {
+		
+			int result = Query.executeUpdate("UPDATE User SET UserCreatorStatus = \"" + CREATOR_STATUS_WAITING + "\" WHERE UserID = " + this.id);
+		
+			return result != 0;
+			
+		} else {
+			
+			return false;
+			
+		}
+		
+	}
+	
+	public char getCreatorStatus() {
+		
+		if (!isValid()) {
+			throw new IllegalStateException("User is not valid! (Doesn't exist!) Check for validity using isValid()!");
+		}
+		
+		ResultSet set = Query.executeSelect(Query.constructQuery("UserCreatorStatus", "User", "UserID = " + this.id));
+		try {
+			set.next();
+			return set.getString("UserCreatorStatus").toCharArray()[0];
+		} catch (SQLException e) {
+			return CREATOR_STATUS_NONE;
+		}
 		
 	}
 	

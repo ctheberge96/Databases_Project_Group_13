@@ -3,7 +3,9 @@ package com.group13.main;
 import java.io.File;
 import java.util.Scanner;
 
-import com.group13.queries.CreatorQuery;
+import com.group13.queries.Creator;
+import com.group13.queries.Query;
+import com.group13.queries.User;
 import com.group13.scenes.AdminScene;
 import com.group13.scenes.AppScene;
 import com.group13.scenes.CreatorScene;
@@ -14,9 +16,8 @@ import com.group13.scenes.UserScene;
 public class MediaCenterApplication {
 
 	private static AppScene currentScene;
-	
-	public enum Rank { USER, CREATOR, ADMIN }
-	public static Rank USER_RANK;
+
+	public static User currentUser;
 	
 	public static void main(String[] args) {
 		
