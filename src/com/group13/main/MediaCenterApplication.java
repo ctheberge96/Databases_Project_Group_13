@@ -3,6 +3,7 @@ package com.group13.main;
 import java.io.File;
 import java.util.Scanner;
 
+import com.group13.queries.Admin;
 import com.group13.queries.Creator;
 import com.group13.queries.Query;
 import com.group13.queries.User;
@@ -20,6 +21,10 @@ public class MediaCenterApplication {
 	public static User currentUser;
 	
 	public static void main(String[] args) {
+		
+		User.registerNewUser(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
+		User admin = new User(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
+		Creator.registerCreator(admin, "0", "0");
 		
 		//Something that runs when the program is shutdown
 		Runtime.getRuntime().addShutdownHook(new Thread()
