@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 public class Admin {
 	
-	public final static String ADMIN_USERNAME = "admin";
-	public final static String ADMIN_PASSWORD = "password";
+	public static String ADMIN_USERNAME = "admin";
+	public static String ADMIN_PASSWORD = "password";
 	
 	/**
 	 * Checks if the given user is the admin.
