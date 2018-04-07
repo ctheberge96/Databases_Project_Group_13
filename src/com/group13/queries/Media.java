@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.LinkedList;
 
 /**
  * A class that represents a Media entity
@@ -19,8 +21,11 @@ import java.util.Calendar;
  */
 public class Media {
 	
-	public enum MediaType { VIDEO, MUSIC, IMAGE, UNKNOWN }
-	
+	public static final char TYPE_VIDEO = 'v';
+	public static final char TYPE_IMAGE = 'i';
+	public static final char TYPE_MUSIC = 'm';
+	public static final char TYPE_UNKNOWN = '?';
+
 	/**
 	 * Adds media to the database.
 	 * 
@@ -31,9 +36,9 @@ public class Media {
 	 * 
 	 * @return Whether the addition was successful
 	 */
-	public static boolean addMedia(int creatorID,
+	public static int addMedia(int creatorID,
 								   String mediaTitle,
-								   MediaType type,
+								   char type,
 								   File mediaFile)
 	{
 		
@@ -59,34 +64,55 @@ public class Media {
 				} catch (IOException e) {
 					
 					e.printStackTrace();
-					return false;
+					return -1;
 					
 				}
 			
 			} else {
 				
-				return false;
+				return -1;
 				
 			}
 			
 		} catch(Exception e) {
 			
-			return false;
+			return -1;
 			
 		}
 			
 		Calendar calendar = Calendar.getInstance();
 		
-		int result = Query.executeUpdate(String.format( "INSERT INTO Media (MediaTitle, MediaType, MediaFileName, MediaLastOpened, MediaDateCreated, MediaCreatorID, MediaViews)"
-													  + "VALUES ( %s, %s, %s, %s, %s, %d, %d )",
-													  mediaTitle,
-													  mediaFile.getName(),
-													  new Date(calendar.getTimeInMillis()),
-													  new Date(calendar.getTimeInMillis()),
-													  creatorID,
-													  0));
+		int result = Query.executeUpdate(Query.constructInsert("Media", "MediaTitle",
+																		mediaTitle,
+																		"MediaType",
+																		String.valueOf(type),
+																		"MediaFileName",
+																		mediaFile.getName(),
+																		"MediaLastOpened",
+																		new Date(calendar.getTimeInMillis()).toString(),
+																		"MediaDateCreated",
+																		new Date(calendar.getTimeInMillis()).toString(),
+																		"MediaCreatorID",
+																		Integer.toString(creatorID),
+																		"MediaViews",
+																		"0"));
 		
-		return result != 0;
+		if (result != 0) {
+			
+			ResultSet set = Query.executeSelect(Query.constructQuery("MediaID", "Media", "MediaTitle = " + mediaTitle));
+			try {
+				set.next();
+				return set.getInt("MediaID");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return -1;
+			}
+			
+		} else {
+			
+			return -1;
+			
+		}
 		
 	}
 	
@@ -100,7 +126,28 @@ public class Media {
 		
 		Query.executeUpdate(String.format("DELETE TaggedMedia WHERE FK_FT_MediaID = %d", media.id));
 		Query.executeUpdate(String.format("DELETE FavoritedMedia WHERE FK_FT_MediaID = %d", media.id));
-		return Query.executeUpdate(String.format("DELETE Media WHERE MediaID = %d", media.id)) != 0;
+		try ( Socket server = new Socket("localhost",1);
+				DataOutputStream toServer = new DataOutputStream(server.getOutputStream());
+				DataInputStream fromServer = new DataInputStream(server.getInputStream()); )
+		{
+			
+			toServer.writeUTF("deletefile~" + media.getMediaFileName());
+			
+			if (fromServer.readUTF().equals("OKAY")) {
+				
+				return true;
+			
+			} else {
+				
+				return false;
+				
+			}
+			
+		} catch(Exception e) {
+			
+			return false;
+			
+		}
 		
 	}
 	
@@ -111,6 +158,12 @@ public class Media {
 	 */
 	public Media(int mediaID) {
 		
+		if (mediaID == -1) {
+			
+			throw new IllegalArgumentException("MediaID cannot be -1!");
+			
+		}
+		
 		id = mediaID;
 		
 	}
@@ -118,23 +171,24 @@ public class Media {
 	/**
 	 * Returns the type of media this entity represents
 	 */
-	public MediaType getMediaType() {
+	public char getMediaType() {
 		
-		String type;
 		try {
-			type = Query.executeSelect("SELECT MediaType FROM Media WHERE MediaID = " + id).getString("MediaType");
+			return Query.executeSelect("SELECT MediaType FROM Media WHERE MediaID = " + id).getString("MediaType").charAt(0);
 		} catch (SQLException e) {
-			return MediaType.UNKNOWN;
+			return TYPE_UNKNOWN;
 		}
 		
-		if (type.equals("v")) {
-			return MediaType.VIDEO;
-		} else if (type.equals("m")) {
-			return MediaType.MUSIC;
-		} else if (type.equals("i")) {
-			return MediaType.IMAGE;
-		} else {
-			return MediaType.UNKNOWN;
+	}
+	
+	public String getMediaFileName() {
+		
+		try {
+			ResultSet set = Query.executeSelect("SELECT MediaFileName FROM Media WHERE MediaID = " + id);
+			set.next();
+			return set.getString("MediaFileName");
+		} catch (SQLException e2) {
+			return null;
 		}
 		
 	}
@@ -146,11 +200,12 @@ public class Media {
 	 */
 	public File getMediaFile() {
 		
-		String filePath;
-		try {
-			filePath = Query.executeSelect("SELECT MediaFileName FROM Media WHERE MediaID = " + id).getString("MediaFileName");
-		} catch (SQLException e2) {
+		String filePath = getMediaFileName();
+		
+		if (filePath == null) {
+			
 			return null;
+			
 		}
 		
 		File file = new File(filePath);
@@ -260,6 +315,26 @@ public class Media {
 			Query.executeUpdate("UPDATE Media SET MediaViews = " + (oldViews + 1) + " WHERE UserID = " + this.id);
 			
 		} catch (SQLException e) {}
+		
+	}
+	
+	public LinkedList<Media> getAllMedia() {
+		
+		ResultSet set = Query.executeSelect(Query.constructQuery("MediaID", "Media"));
+		
+		LinkedList<Media> mediaList = new LinkedList<Media>();
+		
+		try {
+			
+			while (set.next()) {
+			
+				mediaList.add(new Media(set.getInt("MediaID")));
+				
+			}
+		
+		} catch (SQLException e) { }
+		
+		return mediaList;
 		
 	}
 	

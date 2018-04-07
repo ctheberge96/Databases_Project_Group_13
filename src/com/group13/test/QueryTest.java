@@ -2,6 +2,10 @@ package com.group13.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.LinkedList;
 
 import org.junit.jupiter.api.Test;
@@ -102,9 +106,57 @@ class QueryTest {
 		
 	}
 	
+	@Test
 	void testMedia() {
 		
+		/*public static boolean addMedia(int creatorID,
+								   String mediaTitle,
+								   MediaType type,
+								   File mediaFile)
+		 */
 		
+		User.registerNewUser("testU", "testP");
+		User user = new User("testU", "testP");
+		
+		Creator.deleteCreator(user);
+		
+		Creator.registerCreator(user, "123456789", "123456789");
+		
+		Creator creator = new Creator(user);
+		
+		int id = Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
+		
+		assertNotEquals(-1, id, "Media not created!");
+		
+		Media media = new Media(id);
+		
+		assertTrue(Media.deleteMedia(media), "Media was not deleted!");
+		
+		id = Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
+		
+		media = new Media(id);
+		
+		File mediaFile = media.getMediaFile();
+		
+		try {
+			Desktop.getDesktop().open(mediaFile);
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+		
+		//public MediaType getMediaType()
+		
+		//public Date getLastOpened()
+		
+		//public void setLastOpened()
+		
+		//public Date getDateCreated()
+		
+		//public int getCreatorID()
+		
+		//public int getMediaViews()
+		
+		//public void addView()
 		
 	}
 
