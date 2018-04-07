@@ -75,6 +75,7 @@ public class LoginScene extends AppScene {
 				}
 				else {
 					User.registerNewUser(inputedUser, inputedPass);
+					newUserState = true;
 				}
 			}
 		});		
