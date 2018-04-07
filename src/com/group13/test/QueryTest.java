@@ -124,11 +124,9 @@ class QueryTest {
 		
 		Creator creator = new Creator(user);
 		
-		Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
+		assertTrue(Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4")), "Media not created!");
 		
-		assertNotEquals(-1, id, "Media not created!");
-		
-		Media media = new Media(id);
+		Media media = new Media();
 		
 		assertTrue(Media.deleteMedia(media), "Media was not deleted!");
 		
