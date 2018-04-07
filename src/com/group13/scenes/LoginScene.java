@@ -76,6 +76,7 @@ public class LoginScene extends AppScene {
 				else {
 					User.registerNewUser(inputedUser, inputedPass);
 					newUserState = true;
+					System.out.println("You are now able to log in!");
 				}
 			}
 		});		

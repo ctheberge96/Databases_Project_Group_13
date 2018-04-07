@@ -1,8 +1,11 @@
 package com.group13.scenes;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 import com.group13.main.MediaCenterApplication;
+import com.group13.queries.Media;
 import com.group13.util.Menu;
 
 /*
@@ -15,63 +18,16 @@ import com.group13.util.Menu;
 
 public class AdminScene extends AppScene {
 	
-	private Menu mainMenu = new Menu("Media Center");
-	
 	private Menu accountMenu = new Menu("Account Settings");
 	
 	private Menu adminMenu = new Menu("Admin Menu");
 	
-	private Menu curMenu = mainMenu;
+	private Menu curMenu = adminMenu;
 	private void changeMenu(Menu menu) {
 		curMenu = menu;
 	}
 	
 	public AdminScene() {
-
-		mainMenu.addOption("Search Media", () -> {
-			
-			//TAKE FROM USERSCENE
-			
-		});
-		
-		mainMenu.addOption("View Media (All)", () -> {
-					
-			//TAKE FROM USERSCENE	
-					
-		});
-		
-		mainMenu.addOption("View Media (Favorites)", () -> {
-			
-			//TAKE FROM USERSCENE
-			
-		});
-		
-		mainMenu.addOption("View Media (Followed Creators)", () -> {
-			
-			//TAKE FROM USERSCENE
-			
-		});
-	
-		mainMenu.addOption("Administrator Options", () -> {
-			/*
-			 * CHANGE MENU TO ADMIN SPECIFIC MENU
-			 * @author Tyler Crosby
-			 */
-			changeMenu(adminMenu);
-			
-		});
-		
-		mainMenu.addOption("Account Settings", () -> {
-			
-			changeMenu(accountMenu);
-			
-		});
-		
-		mainMenu.addOption("Exit Application", () -> {
-			
-			System.exit(0);
-			
-		});
 	
 		accountMenu.addOption("Change Username", () -> {
 			
@@ -87,19 +43,38 @@ public class AdminScene extends AppScene {
 	
 		accountMenu.addOption("Back", () -> {
 			
-			changeMenu(mainMenu);
+			changeMenu(adminMenu);
 			
 		});
 	//Admin Menu
 		adminMenu.addOption("Add Media", () -> {
 			
+			String mediaTitle;
+			char mediaType;
+			String mediaPath;
+			int result;
+						
+			System.out.print("Enter a Media Title: ");
+			mediaTitle = MediaCenterApplication.INPUT_SCANNER.nextLine();
+			System.out.println();
+			System.out.print("Select a media type: [v]ideo, [m]usic, [i]mage, or [?]");
+			mediaType = MediaCenterApplication.INPUT_SCANNER.nextLine().charAt(0);
+			System.out.println();
+			System.out.print("Enter file path: ");
+			mediaPath = MediaCenterApplication.INPUT_SCANNER.nextLine();
 			
+			File mediaFile = new File(mediaPath);
+			Media.addMedia(MediaCenterApplication.currentUser.getID(), mediaTitle, mediaType, mediaFile);
 			
 		});
 		
 		adminMenu.addOption("Delete Media", () -> {
+			int mediaID;
 			
-			
+			System.out.print("Enter the ID of the Media you wish to delete: ");
+			mediaID = MediaCenterApplication.INPUT_SCANNER.nextInt();
+			Media media = new Media(mediaID);
+			Media.deleteMedia(media);
 			
 		});
 		
@@ -108,9 +83,14 @@ public class AdminScene extends AppScene {
 			
 			
 		});
+		adminMenu.addOption("Account Settings", () -> {
+			
+			changeMenu(accountMenu);
+			
+		});
 		adminMenu.addOption("Back", ()-> {
 			
-			changeMenu(mainMenu);
+			MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
 			
 		});
 		
