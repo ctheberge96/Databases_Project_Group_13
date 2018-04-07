@@ -47,10 +47,6 @@ public class LoginScene extends AppScene {
 					else {
 						MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
 					}
-				
-				}
-				else {
-					User.deleteUser(user);
 				}
 			}
 		});
