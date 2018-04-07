@@ -78,16 +78,12 @@ public class AdminScene extends AppScene {
 			
 		});
 		
-		adminMenu.addOption("Modify Media", () -> {
-			
-			
-			
-		});
 		adminMenu.addOption("Account Settings", () -> {
 			
 			changeMenu(accountMenu);
 			
 		});
+		
 		adminMenu.addOption("Back", ()-> {
 			
 			MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);

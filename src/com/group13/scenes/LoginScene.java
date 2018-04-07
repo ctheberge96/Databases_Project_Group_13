@@ -1,6 +1,8 @@
 package com.group13.scenes;
 
 import com.group13.main.MediaCenterApplication;
+import com.group13.queries.Admin;
+import com.group13.queries.Creator;
 import com.group13.queries.User;
 import com.group13.util.Menu;
 
@@ -35,8 +37,11 @@ public class LoginScene extends AppScene {
 				User user = new User(inputedUser, inputedPass);
 				if(user.isValid()) {
 					MediaCenterApplication.currentUser = user; //accepts user as valid for moving on
-					if(user.getCreatorStatus() == 'a') {
+					if(Creator.isCreator(user)) {
 						MediaCenterApplication.changeScene(MediaCenterApplication.CREATOR_SCENE);
+					}
+					else if(Admin.isAdmin(user)) {
+						MediaCenterApplication.changeScene(MediaCenterApplication.ADMIN_SCENE);
 					}
 					else {
 						MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
