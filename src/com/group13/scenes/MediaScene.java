@@ -2,6 +2,11 @@ package com.group13.scenes;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
+
+import com.group13.main.MediaCenterApplication;
+import com.group13.queries.Media;
+import com.group13.util.Menu;
 
 /**
  * This scene is for any playable media.
@@ -23,7 +28,7 @@ public class MediaScene extends AppScene {
 	 * Date Created
 	 * Views
 	 */
-	
+	private Menu mediaMenu = new Menu ("Media Menu");
 	private int mediaID;
 	public void loadMedia(int mediaID) {
 		
@@ -33,10 +38,35 @@ public class MediaScene extends AppScene {
 	
 	public MediaScene() {
 		
+		mediaMenu.addOption("Play", () -> {
+			try {
+				Desktop.getDesktop().open(new File("pirate.mp4"));
+			} 
+			catch (IOException e) {
+				
+				
+			}
+		
+		} );
+		
+		mediaMenu.addOption("Back", () -> {
+			MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
+		
+		} );
+	
 	}
-
+	
+	
+	
 	@Override
 	public void onStart() {
+		
+		Media MediaI = new Media("The Most Successful Pirate");
+		
+		System.out.print("Title: " + MediaI.getMediaFileName());
+		System.out.print("Type: " + MediaI.getMediaType());
+		System.out.print("Date created: " + MediaI.getDateCreated());
+		System.out.print("Total views" + MediaI.getMediaViews());
 		
 		//print out all the information
 		//start a menu asking to open, or go back

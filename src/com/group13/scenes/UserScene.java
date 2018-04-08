@@ -94,7 +94,7 @@ public class UserScene extends AppScene {
 		});
 		
 		//load media
-		MediaCenterApplication.changeScene(MediaCenterApplication.MEDIA_SCENE);
+		//MediaCenterApplication.changeScene(MediaCenterApplication.MEDIA_SCENE);
 		
 	}
 	
@@ -102,6 +102,8 @@ public class UserScene extends AppScene {
 	
 	@Override
 	public void onStart() {
+		
+		MediaCenterApplication.changeScene(MediaCenterApplication.MEDIA_SCENE);
 		
 		while (loop) {
 			
