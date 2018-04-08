@@ -130,7 +130,7 @@ public class Query {
 			statement.executeQuery("USE mydb;");
 			return statement.executeQuery(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
 		

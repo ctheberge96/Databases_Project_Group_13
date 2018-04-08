@@ -41,7 +41,7 @@ public class Media {
 								   char type,
 								   File mediaFile)
 	{
-		
+
 		try ( Socket server = new Socket("localhost",1);
 				DataOutputStream toServer = new DataOutputStream(server.getOutputStream());
 				DataInputStream fromServer = new DataInputStream(server.getInputStream()); )
@@ -116,8 +116,6 @@ public class Media {
 	 */
 	public static boolean deleteMedia(Media media) {
 		
-		Query.executeUpdate(String.format("DELETE FROM TaggedMedia WHERE FK_FT_MediaTitle = %d", media.title));
-		Query.executeUpdate(String.format("DELETE FROM FavoritedMedia WHERE FK_FT_MediaTitle = %d", media.title));
 		try ( Socket server = new Socket("localhost",1);
 				DataOutputStream toServer = new DataOutputStream(server.getOutputStream());
 				DataInputStream fromServer = new DataInputStream(server.getInputStream()); )
@@ -127,16 +125,20 @@ public class Media {
 			
 			if (fromServer.readUTF().equals("OKAY")) {
 				
-				return true;
-			
+				Query.executeUpdate(String.format("DELETE FROM TaggedMedia WHERE FK_FT_MediaTitle = \"%s\"", media.title));
+				Query.executeUpdate(String.format("DELETE FROM FavoritedMedia WHERE FK_FT_MediaTitle = \"%s\"", media.title));
+				int result = Query.executeUpdate(Query.constructDelete("Media", "MediaTitle = \"" + media.title + "\""));
+				
+				return result != 0;
+				
 			} else {
 				
 				return false;
 				
 			}
 			
-		} catch(Exception e) {
-			
+		} catch(IOException e) {
+
 			return false;
 			
 		}
@@ -166,7 +168,9 @@ public class Media {
 	public char getMediaType() {
 		
 		try {
-			return Query.executeSelect("SELECT MediaType FROM Media WHERE MediaTitle = " + title).getString("MediaType").charAt(0);
+			ResultSet set = Query.executeSelect("SELECT MediaType FROM Media WHERE MediaTitle = \"" + title + "\"");
+			set.next();
+			return set.getString("MediaType").charAt(0);
 		} catch (SQLException e) {
 			return TYPE_UNKNOWN;
 		}
@@ -176,7 +180,7 @@ public class Media {
 	public String getMediaFileName() {
 		
 		try {
-			ResultSet set = Query.executeSelect("SELECT MediaFileName FROM Media WHERE MediaTitle = " + title);
+			ResultSet set = Query.executeSelect("SELECT MediaFileName FROM Media WHERE MediaTitle = \"" + title + "\"");
 			set.next();
 			return set.getString("MediaFileName");
 		} catch (SQLException e2) {
@@ -216,7 +220,7 @@ public class Media {
 				try (FileOutputStream toFile = new FileOutputStream(file);) {
 					
 					while ( ( read = fromServer.read(buff) ) != -1 ) {
-						
+
 						toFile.write(buff, 0, read);
 						
 					}
@@ -247,7 +251,9 @@ public class Media {
 	 */
 	public Date getLastOpened() {
 		try {
-			return Query.executeSelect("SELECT MediaLastOpened FROM Media WHERE MediaTitle = " + title).getDate("MediaLastOpened");
+			ResultSet set = Query.executeSelect("SELECT MediaLastOpened FROM Media WHERE MediaTitle = \"" + title + "\"");
+			set.next();
+			return set.getDate("MediaLastOpened");
 		} catch (SQLException e) {
 			return null;
 		}
@@ -265,7 +271,9 @@ public class Media {
 	 */
 	public Date getDateCreated() {
 		try {
-			return Query.executeSelect("SELECT MediaDateCreated FROM Media WHERE MediaTitle = " + title).getDate("MediaDateCreated");
+			ResultSet set = Query.executeSelect("SELECT MediaDateCreated FROM Media WHERE MediaTitle = \"" + title + "\"");
+			set.next();
+			return set.getDate("MediaDateCreated");
 		} catch (SQLException e) {
 			return null;
 		}
@@ -277,8 +285,11 @@ public class Media {
 	public int getCreatorID() {
 		
 		try {
-			return Query.executeSelect("SELECT CreatorID FROM Media WHERE MediaTitle = " + title).getInt("CreatorID");
+			ResultSet set = Query.executeSelect("SELECT MediaCreatorID FROM Media WHERE MediaTitle = \"" + title + "\""); 
+			set.next();
+			return set.getInt("MediaCreatorID");
 		} catch (SQLException e) {
+			//e.printStackTrace();
 			return -1;
 		}
 		
@@ -290,7 +301,9 @@ public class Media {
 	public int getMediaViews() {
 		
 		try {
-			return Query.executeSelect("SELECT MediaViews FROM Media WHERE MediaTitle = " + title).getInt("MediaViews");
+			ResultSet set = Query.executeSelect("SELECT MediaViews FROM Media WHERE MediaTitle = \"" + title + "\""); 
+			set.next();
+			return set.getInt("MediaViews");
 		} catch (SQLException e) {
 			return -1;
 		}
@@ -301,12 +314,8 @@ public class Media {
 	 */
 	public void addView() {
 		
-		try {
-			
-			int oldViews = Query.executeSelect("SELECT MediaViews WHERE MediaTitle = " + title).getInt("MediaViews");
-			Query.executeUpdate("UPDATE Media SET MediaViews = " + (oldViews + 1) + " WHERE MediaTitle = " + title);
-			
-		} catch (SQLException e) {}
+		int oldViews = getMediaViews();
+		Query.executeUpdate("UPDATE Media SET MediaViews = " + (oldViews + 1) + " WHERE MediaTitle = \"" + title + "\"");
 		
 	}
 	

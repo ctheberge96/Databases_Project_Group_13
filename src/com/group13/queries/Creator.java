@@ -4,8 +4,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+/**
+ * A creator represents a contributor to the database.
+ * <br>
+ * <br>To use this class, it must be given a {@link User}. This User
+ * must be a Creator, or it will be rejected.
+ * 
+ * @author Conner Theberge
+ */
 public class Creator {
 
+	/**
+	 * Registers a new creator in the database.
+	 * 
+	 * @param user The user who is the creator
+	 * @param bankRouting The bank routing number for this creator
+	 * @param bankAccNumber The bank account number for this creator
+	 * @return Whether the registering was successful
+	 */
 	public static boolean registerCreator(User user, String bankRouting, String bankAccNumber) {
 		
 		if (!user.isValid()) {
@@ -26,6 +42,14 @@ public class Creator {
 		 
 	}
 	
+	/**
+	 * Deletes a creator from the database.
+	 * <br>
+	 * <br>Does NOT delete the user account, just the creator account.
+	 * 
+	 * @param user The user who is the creator to delete
+	 * @return Whether the deletion was successful
+	 */
 	public static boolean deleteCreator(User user) {
 		
 		if (!isCreator(user)) {
@@ -40,6 +64,14 @@ public class Creator {
 		
 	}
 	
+	/**
+	 * Deletes a creator from the database.
+	 * <br>
+	 * <br>Does NOT delete the user account, just the creator account.
+	 * 
+	 * @param creator The creator to delete
+	 * @return Whether the deletion was successful
+	 */
 	public static boolean deleteCreator(Creator creator) {
 		
 		//Delete all created media, delete self.
@@ -56,6 +88,9 @@ public class Creator {
 		
 	}
 	
+	/**
+	 * Checks whether the user is a creator
+	 */
 	public static boolean isCreator(User user) {
 		
 		if (!user.isValid()) { return false; }
@@ -75,10 +110,28 @@ public class Creator {
 	}
 	
 	private User user;
+	/**
+	 * Gets the ID of the creator
+	 */
 	public int getID() {
 		return user.getID();
 	}
 	
+	/**
+	 * Checks whether the given user is this creator.
+	 */
+	public boolean isUser(User user) {
+		
+		return this.user == user;
+		
+	}
+	
+	/**
+	 * Constructs a Creator with the given User.
+	 * <br>
+	 * <br>The given User must be a creator, or it will
+	 * be rejected.
+	 */
 	public Creator(User user) {
 		
 		if (!isCreator(user)) {
@@ -91,6 +144,10 @@ public class Creator {
 		
 	}
 	
+	/**
+	 * Gets the total number of plays across all of this Creator's
+	 * media.
+	 */
 	public int getTotalPlays() {
 		
 		LinkedList<Media> allMedia = getCreatedMedia();
@@ -107,6 +164,9 @@ public class Creator {
 		
 	}
 	
+	/**
+	 * Gets this Creator's bank account routing number.
+	 */
 	public String getBankRouting() {
 		try {
 			ResultSet set = Query.executeSelect(Query.constructQuery("CreatorBankRouting", "Creator", "CreatorID = " + user.getID()));
@@ -118,6 +178,9 @@ public class Creator {
 		}
 	}
 	
+	/**
+	 * Gets this Creator's bank account number.
+	 */
 	public String getBankAccountNumber() {
 		try {
 			ResultSet set = Query.executeSelect(Query.constructQuery("CreatorBankAccountNumber", "Creator", "CreatorID = " + user.getID()));
@@ -129,17 +192,20 @@ public class Creator {
 		}
 	}
 	
+	/**
+	 * Gets all media created by this Creator
+	 */
 	public LinkedList<Media> getCreatedMedia() {
 		
 		LinkedList<Media> media = new LinkedList<>();
 		
-		ResultSet set = Query.executeSelect(Query.constructQuery("MediaID", "Media", "MediaCreatorID = " + user.getID()));
+		ResultSet set = Query.executeSelect(Query.constructQuery("MediaTitle", "Media", "MediaCreatorID = " + user.getID()));
 		
 		try {
 		
 			while (set.next()) {
 				
-				media.add(new Media(set.getInt("MediaID")));
+				media.add(new Media(set.getString("MediaTitle")));
 				
 			}
 		
@@ -148,6 +214,16 @@ public class Creator {
 		}
 		
 		return media;
+	}
+	
+	/**
+	 * Gets the total dollar payment this Creator should recieve
+	 * based on the views on their media * PAY_PER_VIEW.
+	 */
+	public double getPayment() {
+		
+		return getTotalPlays() * Admin.PAY_PER_VIEW;
+		
 	}
 	
 }

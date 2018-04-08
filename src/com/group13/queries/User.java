@@ -3,6 +3,13 @@ package com.group13.queries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * A User represents any user, regardless of rank.
+ * <br>
+ * <br>The User is the base class of Admin and Creator.
+ * 
+ * @author Conner Theberge
+ */
 public class User {
 	
 	public static final char CREATOR_STATUS_NONE = 'n';
@@ -46,6 +53,12 @@ public class User {
 	public static boolean deleteUser(User user) {
 		
 		if (user.isValid()) {
+			
+			if(Creator.isCreator(user)) {
+				
+				Creator.deleteCreator(user);
+				
+			}
 	
 			Query.executeUpdate(String.format("DELETE FROM FollowedTag WHERE FK_FM_UserID = %d", user.id));
 			Query.executeUpdate(String.format("DELETE FROM FavoritedMedia WHERE FK_FT_UserID = %d", user.id));
@@ -86,16 +99,18 @@ public class User {
 	
 	/**
 	 * Constructs a User based on ID.
-	 * 
+	 * <br>
+	 * <br>If this user does not exist, its ID is set to -1, and
+	 * its username and password are set to empty strings.
 	 * @param id The ID of the user
 	 */
 	public User(int id) {
 		
-		ResultSet set = Query.executeSelect(String.format("SELECT UserName, UserPassword WHERE UserID = %d", id));
-		
+		ResultSet set = Query.executeSelect(String.format("SELECT UserName, UserPassword FROM User WHERE UserID = %d", id));
 		this.id = id;
 		
 		try {
+			set.next();
 			this.username = set.getString("UserName");
 			this.password = set.getString("UserPassword");
 		} catch (SQLException e) {
@@ -189,6 +204,11 @@ public class User {
 		
 	}
 	
+	/**
+	 * Requests Creator status from the Admin.
+	 * <br>This is not instant, and will require the Admin to log in and
+	 * view the request later.
+	 */
 	public boolean requestCreatorStatus() {
 		
 		if (!isValid()) {
@@ -209,6 +229,9 @@ public class User {
 		
 	}
 	
+	/**
+	 * Gets the status of this User's creator status request
+	 */
 	public char getCreatorStatus() {
 		
 		if (!isValid()) {

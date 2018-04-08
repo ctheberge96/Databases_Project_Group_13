@@ -6,10 +6,12 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.LinkedList;
 
 import org.junit.jupiter.api.Test;
 
+import com.group13.queries.Admin;
 import com.group13.queries.Creator;
 import com.group13.queries.Media;
 import com.group13.queries.User;
@@ -104,6 +106,8 @@ class QueryTest {
 		
 		assertTrue(Creator.deleteCreator(creator), "Creator wasn't deleted!");
 		
+		User.deleteUser(user);
+		
 	}
 	
 	@Test
@@ -124,15 +128,13 @@ class QueryTest {
 		
 		Creator creator = new Creator(user);
 		
+		Media media = new Media("The Most Successful Pirate");
+		
+		Media.deleteMedia(media);
+				
 		assertTrue(Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4")), "Media not created!");
 		
-		Media media = new Media();
-		
-		assertTrue(Media.deleteMedia(media), "Media was not deleted!");
-		
-		id = Media.addMedia(creator.getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
-		
-		media = new Media(id);
+		media = new Media("The Most Successful Pirate");
 		
 		File mediaFile = media.getMediaFile();
 		
@@ -142,20 +144,47 @@ class QueryTest {
 			fail(e.getMessage());
 		}
 		
-		//public MediaType getMediaType()
+		assertEquals(Media.TYPE_VIDEO, media.getMediaType());
 		
-		//public Date getLastOpened()
+		Calendar calendar = Calendar.getInstance();
 		
-		//public void setLastOpened()
+		assertEquals(new Date(calendar.getTimeInMillis()).toString(), media.getLastOpened().toString());
 		
-		//public Date getDateCreated()
+		media.setLastOpened();
 		
-		//public int getCreatorID()
+		assertEquals(new Date(calendar.getTimeInMillis()).toString(), media.getLastOpened().toString());
+
+		assertEquals(new Date(calendar.getTimeInMillis()).toString(), media.getDateCreated().toString());
 		
-		//public int getMediaViews()
+		assertEquals(creator.getID(), media.getCreatorID());
 		
-		//public void addView()
+		assertEquals(0, media.getMediaViews());
+		
+		media.addView();
+		
+		assertEquals(1, media.getMediaViews());
 		
 	}
 
+	@Test
+	void testAdmin() {
+		
+		User.registerNewUser(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
+		User adminUser = new User(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
+		Creator.registerCreator(adminUser, "0", "0");
+		
+		assertTrue(Admin.isAdmin(adminUser), "Admin user is not admin!");
+		
+		Admin admin = new Admin(adminUser);
+		
+		for (Creator creator : admin.getAllCreators()) {
+			
+			Creator.deleteCreator(creator);
+			
+		}
+		
+		User.deleteUser(adminUser);
+		
+	}
+	
 }
