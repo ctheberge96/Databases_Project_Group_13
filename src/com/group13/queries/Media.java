@@ -148,6 +148,15 @@ public class Media {
 	private String title;
 	
 	/**
+	 * Gets the title of this Media
+	 */
+	public String getMediaTitle() {
+		
+		return title;
+		
+	}
+	
+	/**
 	 * Creates a media entity with the given ID
 	 */
 	public Media(String mediaTitle) {
