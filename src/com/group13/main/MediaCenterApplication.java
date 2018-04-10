@@ -26,8 +26,12 @@ public class MediaCenterApplication {
 		User.registerNewUser(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
 		User admin = new User(Admin.ADMIN_USERNAME, Admin.ADMIN_PASSWORD);
 		Creator.registerCreator(admin, "0", "0");
+		User.registerNewUser("creator", "creatorpass");
+		User testCreator = new User("creator", "creatorpass");
+		Creator.registerCreator(testCreator, "011400071", "12345678901234");
 		
-		Media.addMedia(new Creator(admin).getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("pirate.mp4"));
+		Media.addMedia(new Creator(admin).getID(), "The Most Successful Pirate", Media.TYPE_VIDEO, new File("C:\\Users\\thebergec\\Desktop\\pirate.mp4"));
+		Media.addMedia(new Creator(admin).getID(), "The Truth", Media.TYPE_IMAGE, new File("C:\\Users\\thebergec\\Desktop\\rosenberg.png"));
 		
 		//Something that runs when the program is shutdown
 		Runtime.getRuntime().addShutdownHook(new Thread()
@@ -36,11 +40,12 @@ public class MediaCenterApplication {
 	      {
 	    	  INPUT_SCANNER.close();
 	    	  Media.deleteMedia(new Media("The Most Successful Pirate"));
+	    	  Media.deleteMedia(new Media("The Truth"));
 	      }
 	    });
 		
 		//Changes the scene to the initial scene
-		changeScene(MEDIA_SCENE);
+		changeScene(LOGIN_SCENE);
 		
 	}
 	

@@ -328,9 +328,9 @@ public class Media {
 		
 	}
 	
-	public LinkedList<Media> getAllMedia() {
+	public static LinkedList<Media> getAllMedia() {
 		
-		ResultSet set = Query.executeSelect(Query.constructQuery("MediaTitle", "Media"));
+		ResultSet set = Query.executeSelect(Query.constructSelect("MediaTitle", "Media"));
 		
 		LinkedList<Media> mediaList = new LinkedList<Media>();
 		

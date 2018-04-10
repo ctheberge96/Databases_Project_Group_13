@@ -27,7 +27,6 @@ public class Menu {
   	 * <br>-----------------
 	 * 
 	 * @param title The title of this menu
-	 * @param options All options for the user to choose from
 	 */
 	public Menu(String title) {
 		
@@ -40,6 +39,9 @@ public class Menu {
 	
 	/**
 	 * Adds an option to this menu.
+	 * 
+	 * @param option The title of the option
+	 * @param action the function that runs when the option is selected
 	 */
 	public void addOption(String option, Runnable action) {
 		
@@ -50,6 +52,8 @@ public class Menu {
 	
 	/**
 	 * Removes an option from this menu
+	 * 
+	 * @param option The title of the option to remove
 	 */
 	public void removeOption(String option) {
 		
@@ -96,19 +100,25 @@ public class Menu {
 			
 			System.out.print("?> ");
 		
+			int optionNum = -1;
+			
 			try {
 			
-				int optionNum = Integer.parseInt(scanner.nextLine());
-				
-				actionMap.get(options.get(optionNum - 1)).run();
-				
-				return;
+				optionNum = Integer.parseInt(scanner.nextLine());
 				
 			} catch(Exception e) {
 				
 				System.out.println("Invalid Choice.");
 				
+				continue;
+				
+				//e.printStackTrace();
+				
 			}
+			
+			actionMap.get(options.get(optionNum - 1)).run();
+			
+			break;
 			
 		}
 		

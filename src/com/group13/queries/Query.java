@@ -8,7 +8,11 @@ import java.util.LinkedList;
 
 public class Query {
 	
-	public static Connection connect() {
+	/**
+	 * Connects to the database and returns the {@link Connection}.
+	 * <br>Returns null if there is any error connecting
+	 */
+	private static Connection connect() {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -27,18 +31,48 @@ public class Query {
 		
 	}
 	
-	public static String constructQuery(String columnName, String tableName, String whereCondition) {
+	/**
+	 * Constructs a select statement.
+	 * <br>Use {@link #executeSelect(String)} to execute
+	 * the constructed statement.
+	 * 
+	 * @param columnName The name of the column to select
+	 * @param tableName The table to select from
+	 * @param whereCondition The where statement for specific selection
+	 * (Ex: ID = selectID)
+	 * @return The constructed statement as a string
+	 */
+	public static String constructSelect(String columnName, String tableName, String whereCondition) {
 		
 		return String.format("SELECT %s FROM %s WHERE %s", columnName, tableName, whereCondition);
 		
 	}
 	
-	public static String constructQuery(String columnName, String tableName) {
+	/**
+	 * Constructs a select statement.
+	 * <br>Use {@link #executeSelect(String)} to execute
+	 * the constructed statement.
+	 * 
+	 * @param columnName The name of the column to select
+	 * @param tableName The table to select from
+	 * @return The constructed statement as a string
+	 */
+	public static String constructSelect(String columnName, String tableName) {
 		
 		return String.format("SELECT %s FROM %s", columnName, tableName);
 		
 	}
 	
+	/**
+	 * Constructs an insert statement.
+	 * <br>Use {@link #executeUpdate(String)} to execute the constructed statement
+	 * 
+	 * @param tableName The name of the table to insert into
+	 * @param insertValues The values to insert.
+	 * <br>Values are structured 1:1 with column name first,
+	 * and actual value in the next argument
+	 * @return The constructed statement as a string
+	 */
 	public static String constructInsert(String tableName, String...insertValues) {
 		
 		if (insertValues.length == 0) {
@@ -94,6 +128,15 @@ public class Query {
 		
 	}
 
+	/**
+	 * Constructs a delete statement
+	 * <br>Use {@link #executeUpdate(String)} to execute the constructed statement
+	 * 
+	 * @param tableName The name of the table to delete from
+	 * @param whereConditions The where statements for specific deletion
+	 * (Ex: ID = selectID)
+	 * @return The constructed statement
+	 */
 	public static String constructDelete(String tableName, String...whereConditions) {
 		
 		if (whereConditions.length == 0) {
@@ -122,6 +165,13 @@ public class Query {
 		
 	}
 	
+	/**
+	 * Executes a select statement.
+	 * <br>Cannot execute any statements that would update the database.
+	 * 
+	 * @param query The query statement to execute
+	 * @return The {@link ResultSet} resulting from the select. Null on error.
+	 */
 	public static ResultSet executeSelect(String query) {
 		
 		try {
@@ -136,6 +186,13 @@ public class Query {
 		
 	}
 	
+	/**
+	 * Executes an update statement.
+	 * <br>Cannot execute any statements that would select from the database.
+	 * 
+	 * @param query The query statement to execute
+	 * @return The number of rows in the database affected.
+	 */
 	public static int executeUpdate(String query) {
 		
 		try {

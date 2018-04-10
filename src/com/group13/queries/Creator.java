@@ -95,7 +95,7 @@ public class Creator {
 		
 		if (!user.isValid()) { return false; }
 		
-		ResultSet set = Query.executeSelect(Query.constructQuery("CreatorID", "Creator", "CreatorID = " + user.getID()));
+		ResultSet set = Query.executeSelect(Query.constructSelect("CreatorID", "Creator", "CreatorID = " + user.getID()));
 		
 		try {			
 			set.next();
@@ -169,7 +169,7 @@ public class Creator {
 	 */
 	public String getBankRouting() {
 		try {
-			ResultSet set = Query.executeSelect(Query.constructQuery("CreatorBankRouting", "Creator", "CreatorID = " + user.getID()));
+			ResultSet set = Query.executeSelect(Query.constructSelect("CreatorBankRouting", "Creator", "CreatorID = " + user.getID()));
 			set.next();
 			return set.getString("CreatorBankRouting");
 		} catch (SQLException e) {
@@ -183,7 +183,7 @@ public class Creator {
 	 */
 	public String getBankAccountNumber() {
 		try {
-			ResultSet set = Query.executeSelect(Query.constructQuery("CreatorBankAccountNumber", "Creator", "CreatorID = " + user.getID()));
+			ResultSet set = Query.executeSelect(Query.constructSelect("CreatorBankAccountNumber", "Creator", "CreatorID = " + user.getID()));
 			set.next();
 			return set.getString("CreatorBankAccountNumber");
 		} catch (SQLException e) {
@@ -199,7 +199,7 @@ public class Creator {
 		
 		LinkedList<Media> media = new LinkedList<>();
 		
-		ResultSet set = Query.executeSelect(Query.constructQuery("MediaTitle", "Media", "MediaCreatorID = " + user.getID()));
+		ResultSet set = Query.executeSelect(Query.constructSelect("MediaTitle", "Media", "MediaCreatorID = " + user.getID()));
 		
 		try {
 		

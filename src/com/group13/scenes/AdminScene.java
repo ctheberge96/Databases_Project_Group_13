@@ -11,7 +11,7 @@ import com.group13.util.Menu;
 /*
  * Admin Scene
  * @author Tyler Crosby
- * @author Connor Theberge
+ * @author Conner Theberge
  * 
  * 
  */
@@ -114,7 +114,7 @@ public class AdminScene extends AppScene {
 						sChoice = false;
 						break;
 					default:
-						System.out.println("Non-valid choice");
+						System.out.println("Non-valid choice ");
 					}
 				}
 			}
@@ -128,13 +128,23 @@ public class AdminScene extends AppScene {
 	//Account Menu
 		accountMenu.addOption("Change Username", () -> {
 			
-			System.out.println("Not yet implemented");
+			System.out.print("Enter a new username: ");
+			String newUsername = MediaCenterApplication.INPUT_SCANNER.nextLine();
+			MediaCenterApplication.currentUser.changeUsername(newUsername);
+			
+			System.out.println();
+			System.out.println("New username accepted: "+newUsername+ ". Don't lose it!");
 			
 		});
 		
 		accountMenu.addOption("Change Password", () -> {
 					
-			System.out.println("Not yet implemented");
+			System.out.print("Enter a new password: ");
+			String newPassword = MediaCenterApplication.INPUT_SCANNER.nextLine();
+			MediaCenterApplication.currentUser.changePassword(newPassword);
+			
+			System.out.println();
+			System.out.println("New username accepted: "+newPassword+ ". Don't lose it!");
 					
 		});
 	

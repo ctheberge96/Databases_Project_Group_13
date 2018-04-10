@@ -29,6 +29,7 @@ public class MediaScene extends AppScene {
 	 * Views
 	 */
 	private Menu mediaMenu = new Menu ("Media Menu");
+	
 	private int mediaID;
 	public void loadMedia(int mediaID) {
 		
@@ -37,22 +38,9 @@ public class MediaScene extends AppScene {
 	}
 	
 	public MediaScene() {
+		//mediaMenu.print();
+		//mediaMenu.getInput(MediaCenterApplication.INPUT_SCANNER);
 		
-		mediaMenu.addOption("Play", () -> {
-			try {
-				Desktop.getDesktop().open(new File("pirate.mp4"));
-			} 
-			catch (IOException e) {
-				
-				
-			}
-		
-		} );
-		
-		mediaMenu.addOption("Back", () -> {
-			MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
-		
-		} );
 	
 	}
 	
@@ -68,6 +56,26 @@ public class MediaScene extends AppScene {
 		System.out.print("Date created: " + MediaI.getDateCreated());
 		System.out.print("Total views" + MediaI.getMediaViews());
 		
+		mediaMenu.addOption("Play", () -> {
+			try {
+				Desktop.getDesktop().open(new File("pirate.mp4"));
+				mediaMenu.print();
+				mediaMenu.getInput(MediaCenterApplication.INPUT_SCANNER);
+			
+			} 
+			catch (IOException e) {
+				
+				
+			}
+		
+		} );
+		
+		mediaMenu.addOption("Back", () -> {
+			MediaCenterApplication.changeScene(MediaCenterApplication.USER_SCENE);
+			
+		} );
+		
+		
 		//print out all the information
 		//start a menu asking to open, or go back
 		
@@ -82,3 +90,4 @@ public class MediaScene extends AppScene {
 	}
 
 }
+

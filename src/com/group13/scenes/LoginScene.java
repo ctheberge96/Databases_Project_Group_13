@@ -73,7 +73,6 @@ public class LoginScene extends AppScene {
 				if(user.isValid()) {
 					System.out.println("User already exists!");
 					System.out.println();
-					User.deleteUser(user);
 				}
 				else {
 					User.registerNewUser(inputedUser, inputedPass);

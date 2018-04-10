@@ -75,6 +75,23 @@ public class User {
 	}
 	
 	/**
+	 * Checks to see if the given username exists in the database
+	 */
+	public static boolean usernameExists(String username) {
+		
+		ResultSet set = Query.executeSelect(Query.constructSelect("UserID", "User", "UserName = \"" + username + "\""));
+		
+		try {
+			set.next();
+			set.getInt("UserID");
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
+	/**
 	 * Constructs a User based on the given username and password.
 	 * <br>Should be used when User ID is unknown
 	 * 
@@ -230,6 +247,23 @@ public class User {
 	}
 	
 	/**
+	 * Resets this User's creator status to none
+	 * 
+	 * @return If the change was successful
+	 */
+	public boolean resetCreatorStatus() {
+		
+		if (!isValid()) {
+			throw new IllegalStateException("User is not valid! (Doesn't exist!) Check for validity using isValid()!");
+		}
+		
+		int result = Query.executeUpdate("UPDATE User SET UserCreatorStatus = \"" + CREATOR_STATUS_NONE + "\" WHERE UserID = " + this.id);
+		
+		return result != 0;
+		
+	}
+	
+	/**
 	 * Gets the status of this User's creator status request
 	 */
 	public char getCreatorStatus() {
@@ -238,7 +272,7 @@ public class User {
 			throw new IllegalStateException("User is not valid! (Doesn't exist!) Check for validity using isValid()!");
 		}
 		
-		ResultSet set = Query.executeSelect(Query.constructQuery("UserCreatorStatus", "User", "UserID = " + this.id));
+		ResultSet set = Query.executeSelect(Query.constructSelect("UserCreatorStatus", "User", "UserID = " + this.id));
 		try {
 			set.next();
 			return set.getString("UserCreatorStatus").toCharArray()[0];

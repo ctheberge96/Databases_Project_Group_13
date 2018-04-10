@@ -120,7 +120,7 @@ public class Admin {
 		
 		LinkedList<User> requesters = new LinkedList<>();
 		
-		ResultSet set = Query.executeSelect(Query.constructQuery("UserID", "User", "UserCreatorStatus = \"" + User.CREATOR_STATUS_WAITING + "\""));
+		ResultSet set = Query.executeSelect(Query.constructSelect("UserID", "User", "UserCreatorStatus = \"" + User.CREATOR_STATUS_WAITING + "\""));
 		
 		try {
 			while (set.next()) {
