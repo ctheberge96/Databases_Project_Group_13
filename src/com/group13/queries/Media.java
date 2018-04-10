@@ -25,9 +25,34 @@ public class Media {
 	public static final char TYPE_IMAGE = 'i';
 	public static final char TYPE_MUSIC = 'm';
 	public static final char TYPE_UNKNOWN = '?';
+	
+	/**
+	 * Translates the mediaType from a char to a readable string.
+	 * <br>This is what should be displayed to the user.
+	 * 
+	 * @param mediaType The type as an identifying char
+	 * @return The string identifier version of the given type
+	 */
+	public static final String translateMediaType(char mediaType) {
+		
+		switch(mediaType) {
+		
+		case 'v':
+			return "Video";
+		case 'i':
+			return "Image";
+		case 'm':
+			return "Music";
+		default:
+			return "Uknown";
+		}
+		
+	}
 
 	/**
 	 * Adds media to the database.
+	 * <br>This may take time, as this function
+	 * transfers the whole file to the file server.
 	 * 
 	 * @param creatorID The ID of the creator
 	 * @param mediaTitle The title of the media
@@ -111,6 +136,9 @@ public class Media {
 	/**
 	 * Deletes a given media from the database
 	 * 
+	 * <br>This may take time, as this function
+	 * talks to the file server.
+	 * 
 	 * @param media The media entity to delete
 	 * @return Whether the deletion was successful
 	 */
@@ -148,7 +176,8 @@ public class Media {
 	private String title;
 	
 	/**
-	 * Gets the title of this Media
+	 * Gets the title of this Media.
+	 * <br>Title is the identifying feature of Media
 	 */
 	public String getMediaTitle() {
 		
@@ -157,7 +186,9 @@ public class Media {
 	}
 	
 	/**
-	 * Creates a media entity with the given ID
+	 * Creates a media entity with the given title
+	 * <br>This is like a link to the information in the database.
+	 * <br>If this title doesn't exist in the database, there's no data to get.
 	 */
 	public Media(String mediaTitle) {
 		
@@ -174,18 +205,22 @@ public class Media {
 	/**
 	 * Returns the type of media this entity represents
 	 */
-	public char getMediaType() {
+	public String getMediaType() {
 		
 		try {
 			ResultSet set = Query.executeSelect("SELECT MediaType FROM Media WHERE MediaTitle = \"" + title + "\"");
 			set.next();
-			return set.getString("MediaType").charAt(0);
+			return translateMediaType(set.getString("MediaType").charAt(0));
 		} catch (SQLException e) {
-			return TYPE_UNKNOWN;
+			return translateMediaType(TYPE_UNKNOWN);
 		}
 		
 	}
 	
+	/**
+	 * Gets the file name for this media.
+	 * <br>Ex: media.mp4
+	 */
 	public String getMediaFileName() {
 		
 		try {
@@ -328,6 +363,9 @@ public class Media {
 		
 	}
 	
+	/**
+	 * Gets all media from the database, regardless of who created it.
+	 */
 	public static LinkedList<Media> getAllMedia() {
 		
 		ResultSet set = Query.executeSelect(Query.constructSelect("MediaTitle", "Media"));

@@ -1,4 +1,4 @@
-package com.group13.scenes;
+package com.group13.oldscenes;
 
 import java.io.File;
 
@@ -6,6 +6,7 @@ import com.group13.main.MediaCenterApplication;
 import com.group13.queries.Creator;
 import com.group13.queries.Media;
 import com.group13.queries.User;
+import com.group13.scenes.AppScene;
 import com.group13.util.Menu;
 
 /*

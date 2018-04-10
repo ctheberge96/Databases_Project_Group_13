@@ -1,6 +1,7 @@
-package com.group13.scenes;
+package com.group13.oldscenes;
 
 import com.group13.main.MediaCenterApplication;
+import com.group13.scenes.AppScene;
 import com.group13.util.Menu;
 
 public class UserScene extends AppScene {

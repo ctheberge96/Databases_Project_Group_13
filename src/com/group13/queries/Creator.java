@@ -10,6 +10,9 @@ import java.util.LinkedList;
  * <br>To use this class, it must be given a {@link User}. This User
  * must be a Creator, or it will be rejected.
  * 
+ * <br>Keep in mind, when creating this, it's more like a LINK to the data. If there's
+ * no link (the user doesn't exist or isn't actually a creator), there's no data.
+ * 
  * @author Conner Theberge
  */
 public class Creator {
@@ -40,28 +43,6 @@ public class Creator {
 																 String.format("\"%s\"", bankAccNumber)));
 		
 		 
-	}
-	
-	/**
-	 * Deletes a creator from the database.
-	 * <br>
-	 * <br>Does NOT delete the user account, just the creator account.
-	 * 
-	 * @param user The user who is the creator to delete
-	 * @return Whether the deletion was successful
-	 */
-	public static boolean deleteCreator(User user) {
-		
-		if (!isCreator(user)) {
-			
-			return false;
-			
-		} else {
-			
-			return deleteCreator(new Creator(user));
-			
-		}
-		
 	}
 	
 	/**
@@ -115,15 +96,6 @@ public class Creator {
 	 */
 	public int getID() {
 		return user.getID();
-	}
-	
-	/**
-	 * Checks whether the given user is this creator.
-	 */
-	public boolean isUser(User user) {
-		
-		return this.user == user;
-		
 	}
 	
 	/**
@@ -217,7 +189,7 @@ public class Creator {
 	}
 	
 	/**
-	 * Gets the total dollar payment this Creator should recieve
+	 * Gets the total dollar payment this Creator should receive
 	 * based on the views on their media * PAY_PER_VIEW.
 	 */
 	public double getPayment() {

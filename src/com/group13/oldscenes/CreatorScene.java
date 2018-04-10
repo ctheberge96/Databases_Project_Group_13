@@ -1,4 +1,6 @@
-package com.group13.scenes;
+package com.group13.oldscenes;
+
+import com.group13.scenes.AppScene;
 
 public class CreatorScene extends AppScene {
 

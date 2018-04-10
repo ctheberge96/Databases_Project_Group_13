@@ -6,14 +6,13 @@ import java.util.Scanner;
 import com.group13.queries.Admin;
 import com.group13.queries.Creator;
 import com.group13.queries.Media;
-import com.group13.queries.Query;
 import com.group13.queries.User;
-import com.group13.scenes.AdminScene;
 import com.group13.scenes.AppScene;
-import com.group13.scenes.CreatorScene;
-import com.group13.scenes.LoginScene;
-import com.group13.scenes.MediaScene;
-import com.group13.scenes.UserScene;
+import com.group13.scenes.CAdminScene;
+import com.group13.scenes.CCreatorScene;
+import com.group13.scenes.CLoginScene;
+import com.group13.scenes.CMediaScene;
+import com.group13.scenes.CUserScene;
 
 public class MediaCenterApplication {
 
@@ -50,11 +49,11 @@ public class MediaCenterApplication {
 	}
 	
 	//All scenes which can be switched to
-	public static final MediaScene MEDIA_SCENE = new MediaScene();
-	public static final AdminScene ADMIN_SCENE = new AdminScene();
-	public static final CreatorScene CREATOR_SCENE = new CreatorScene();
-	public static final LoginScene LOGIN_SCENE = new LoginScene();
-	public static final UserScene USER_SCENE = new UserScene();
+	public static final CMediaScene MEDIA_SCENE = new CMediaScene();
+	public static final CAdminScene ADMIN_SCENE = new CAdminScene();
+	public static final CCreatorScene CREATOR_SCENE = new CCreatorScene();
+	public static final CLoginScene LOGIN_SCENE = new CLoginScene();
+	public static final CUserScene USER_SCENE = new CUserScene();
 	public static final Scanner INPUT_SCANNER = new Scanner(System.in);
 	
 	/**

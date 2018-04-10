@@ -86,7 +86,7 @@ class QueryTest {
 		User.registerNewUser("testU", "testP");
 		User user = new User("testU", "testP");
 		
-		Creator.deleteCreator(user);
+		Creator.deleteCreator(new Creator(user));
 		
 		assertTrue(Creator.registerCreator(user, "123456789", "123456789"), "Unable to register creator!");
 		
@@ -122,7 +122,7 @@ class QueryTest {
 		User.registerNewUser("testU", "testP");
 		User user = new User("testU", "testP");
 		
-		Creator.deleteCreator(user);
+		Creator.deleteCreator(new Creator(user));
 		
 		Creator.registerCreator(user, "123456789", "123456789");
 		

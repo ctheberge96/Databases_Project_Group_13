@@ -5,10 +5,14 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 /**
- * The admin represents the owner of the database.
+ * The admin represents the owner of the database and contains functions
+ * to get relevant information
  * <br>
  * <br>To use this class, it must be given a {@link User}. This User
  * must be the Admin, or it will be rejected.
+ * 
+ * <br>Keep in mind, when creating this, it's more like a LINK to the data. If there's
+ * no link (the user doesn't exist or isn't actually the admin), there's no data.
  * 
  * @author Conner Theberge
  */
@@ -16,6 +20,10 @@ public class Admin {
 	
 	public static String ADMIN_USERNAME = "admin";
 	public static String ADMIN_PASSWORD = "password";
+	
+	/**
+	 * How much the creator should be paid per media view
+	 */
 	public static final double PAY_PER_VIEW = 0.05;
 	
 	/**
@@ -31,17 +39,9 @@ public class Admin {
 	}
 
 	private User user;
-	/**
-	 * Checks to see if the given user is the admin user.
-	 */
-	public boolean isUser(User user) {
-		
-		return this.user == user;
-		
-	}
 	
 	/**
-	 * Gets the ID of the Admin's User entity
+	 * Gets the ID of the Admin
 	 */
 	public int getID() {	
 		return user.getID();

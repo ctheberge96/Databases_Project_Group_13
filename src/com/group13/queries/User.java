@@ -56,7 +56,7 @@ public class User {
 			
 			if(Creator.isCreator(user)) {
 				
-				Creator.deleteCreator(user);
+				Creator.deleteCreator(new Creator(user));
 				
 			}
 	
