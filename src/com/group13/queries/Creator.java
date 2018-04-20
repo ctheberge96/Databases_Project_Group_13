@@ -1,5 +1,12 @@
 package com.group13.queries;
 
+/* 
+ * Conner Theberge
+ * Group 13
+ * Comp 2650, Databases 
+ * Media Center Application
+ */
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;

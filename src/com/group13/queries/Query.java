@@ -1,4 +1,12 @@
 package com.group13.queries;
+
+/* 
+ * Conner Theberge
+ * Group 13
+ * Comp 2650, Databases 
+ * Media Center Application
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -6,6 +14,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+/**
+ * Query contains methods to allow for executing queries to the database
+ * 
+ * @author Conner Theberge
+ */
 public class Query {
 	
 	/**

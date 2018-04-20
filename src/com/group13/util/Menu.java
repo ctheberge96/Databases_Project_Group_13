@@ -3,6 +3,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/* 
+ * Conner Theberge
+ * Group 13
+ * Comp 2650, Databases 
+ * Media Center Application
+ */
+
 /**
  * A Menu represents a list of options the user can choose from
  * 
@@ -88,6 +95,13 @@ public class Menu {
 		
 	}
 	
+	/**
+	 * Uses an existing Scanner to get the input from the user,
+	 * executing the relevant action associated with the selected option.
+	 * <br>Loops until the user gives valid input.
+	 * 
+	 * @param scanner The scanner to use to get input from the user
+	 */
 	public void getInput(Scanner scanner) {
 		
 		if (options.isEmpty()) {
@@ -114,6 +128,12 @@ public class Menu {
 				
 				//e.printStackTrace();
 				
+			}
+			
+			if (optionNum <= 0 || optionNum > options.size()) {
+				optionNum = -1;
+				System.out.println("Invalid Choice.");
+				continue;
 			}
 			
 			actionMap.get(options.get(optionNum - 1)).run();

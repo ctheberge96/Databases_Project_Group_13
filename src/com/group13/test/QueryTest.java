@@ -1,5 +1,12 @@
 package com.group13.test;
 
+/* 
+ * Conner Theberge
+ * Group 13
+ * Comp 2650, Databases 
+ * Media Center Application
+ */
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Desktop;
@@ -16,6 +23,10 @@ import com.group13.queries.Creator;
 import com.group13.queries.Media;
 import com.group13.queries.User;
 
+/**
+ * This JUnit tests all Query classes
+ * @author Conner Theberge
+ */
 class QueryTest {
 
 	@Test

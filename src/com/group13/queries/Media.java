@@ -1,5 +1,12 @@
 package com.group13.queries;
 
+/* 
+ * Conner Theberge
+ * Group 13
+ * Comp 2650, Databases 
+ * Media Center Application
+ */
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -248,7 +255,8 @@ public class Media {
 			
 		}
 		
-		File file = new File(filePath);
+		File file = new File("./mediatemp/" + filePath);
+		file.getParentFile().mkdirs();
 		
 		try ( Socket server = new Socket("localhost",1);
 				DataOutputStream toServer = new DataOutputStream(server.getOutputStream());
@@ -280,11 +288,14 @@ public class Media {
 			
 			} else {
 				
+				System.out.println("NOT OKAY");
+				
 				return null;
 				
 			}
 			
 		} catch (IOException e1) {
+			e1.printStackTrace();
 			return null;
 		}
 		

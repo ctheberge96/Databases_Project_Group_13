@@ -1,0 +1,3 @@
+The database is populated when the program starts.
+
+Make sure FileServer.java (A stand-alone program) has been started before you start MediaCenterApplication.java
